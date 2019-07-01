@@ -1,0 +1,43 @@
+body {
+    background-color: #616161;
+}
+
+.headerInput {
+    width: 50%;
+    background-color: #1abc9c;
+    color: white;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.headerInput h1 {
+    text-align: center;
+}
+
+.headerInput input {
+    width: 60%;
+    padding: 10px;
+}
+
+ul {
+    width: 94%;
+    text-align: left;
+    background-color: #505050;
+}
+
+ul li:nth-child(even){
+    background-color: #6b6a6a;
+}
+
+ul li:hover {
+    background-color: #ddd;
+}
+
+ul li {
+    padding: 8px;
+}
+
+ul button {
+    float: right;
+}
