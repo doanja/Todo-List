@@ -20,6 +20,17 @@ body {
     padding: 10px;
 }
 
+#addButton {
+    background-color: white;
+    color: black;
+    padding: 2px;
+    border: 1px solid black;
+}
+
+#addButton:hover {
+    background-color: aquamarine;
+}
+
 ul {
     width: 94%;
     text-align: left;
@@ -38,7 +49,15 @@ ul li {
     padding: 8px;
 }
 
-ul button {
+ul span {
     float: right;
+    background-color: white;
+    color: black;
+    padding: 2px;
+    border: 1px solid black;
+}
+
+ul span:hover {
+    background-color: aquamarine;
 }
 

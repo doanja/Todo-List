@@ -1,48 +1,66 @@
-// listens for button click
+// listens for span click
 document.getElementById("addButton").addEventListener("click", addItem);
 
-// when button is press, add a <li>
+// when span is press, add a <li>
 function addItem(){
-    var text = document.getElementById("input_text").value; // grabs input text
+    let inputTxt = document.getElementById("input_text").value; // grabs input text
     
-    var node = document.createElement("li");                // create <li>
-    var textnode = document.createTextNode(text);           // creates the text
-    node.appendChild(textnode);                             // append text to <li>
-    createDelBtn(node);                                     // creates and appends <button>
-    //createEditlBtn(node);
+    let li = document.createElement("li");                      // creates <li>                                             // 
+    createP(li, inputTxt);                                      // creates and puts inputTxt into <p>
+    createDelBtn(li);                                           // creates and appends <span>
 
     // if nothing was inputted...
-    if(text === ''){
+    if(inputTxt === ''){
         alert("Enter something...");
     }
     else { // else add the <li> to the <ul>
-        document.getElementById("todoList").appendChild(node);  // append <li> to <ul>
+        let pTag = document.getElementById("pTxt");
+        document.getElementById("todoList").appendChild(li);    // append <li> to <ul>
         document.getElementById("input_text").value = '';       // clears input
     }
 }
 
+// create delete <button> upon creation of a <li>
 function createDelBtn(node){
-    var button = document.createElement("button");      // create <button>
-    button.id = "delete";                               // tags the delete button
-    button.innerHTML = "delete";                        // button's text
-    node.appendChild(button);                           // append this <button> to the node <li>
+    let span = document.createElement("span");          // create <span>
+    span.id = "delete";                                 // tags the delete span
+    span.textContent = "delete";                        // span's text
+    node.appendChild(span);                             // append this <span> to the node <li>
     
-    // handles delete functionality of the delete button
-    button.onclick = function() {
-        var div = this.parentElement;
+
+
+    // handles delete functionality of the delete span
+    span.onclick = function() {
+        let div = this.parentElement;
         div.style.display = "none";
     }
 }
 
-function createEditlBtn(node){
-    var button = document.createElement("button");    // create <button>
-    button.id = "edit";                               // tags the edit button
-    button.innerHTML = "edit";                        // button's text
-    node.appendChild(button);
-}
+function createP(node, inputTxt){
+    let p = document.createElement("p");        // creates <p>
+    p.id = "pTxt";                              // creates id for <p>
+    p.textContent = inputTxt;                   // puts inputTxt into <p>
+    node.appendChild(p);                        // put <p> into <li>
 
-function deleteItem(){
-    console.log("deleteItem");
-    var li = document.getElementById("li");
-    ul.parentNode.removeChild(li);
+    let isEditing = false;
+
+    // when <p> is created, create <input>, transfer <p> text into <input>
+    p.onclick = function(){
+        isEditing = true;
+        if(isEditing === true){
+            let inputField = document.createElement("input");
+            inputField.id = "inputField";
+            inputField.textContent = inputTxt;
+            isEditing = false;
+        }
+        else {
+            //isEditing
+        }
+
+        
+
+        // p.innerHTML = node.innerHTML;           // copy <li> text into <p>
+        // node.innerHTML = "";                    // hide <li>
+        // document.getElementById("txt").contentEditable = "true"; // make the <p> editable
+    }
 }
