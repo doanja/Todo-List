@@ -4,7 +4,7 @@ body {
 
 .headerInput {
     width: 50%;
-    background-color: #1abc9c;
+    background-color: #3a292f;
     color: white;
     margin: auto;
     text-align: center;
@@ -13,6 +13,7 @@ body {
 
 .headerInput h1 {
     text-align: center;
+    padding-top: 20px;
 }
 
 .headerInput input {
@@ -28,13 +29,15 @@ body {
 }
 
 #addButton:hover {
-    background-color: aquamarine;
+    background-color: #3a292f;
 }
 
 ul {
-    width: 94%;
+    width: 90%;
     text-align: left;
-    background-color: #505050;
+    background-color: #4c4c4c;
+    margin: auto;
+    list-style: none;
 }
 
 ul li:nth-child(even){
@@ -42,11 +45,18 @@ ul li:nth-child(even){
 }
 
 ul li:hover {
-    background-color: #ddd;
+    background-color: #46383d;
 }
 
 ul li {
+    height: 25px;
     padding: 8px;
+    /* border: 1px solid yellow; */
+}
+
+ul p {
+    display: inline;
+    /* border: 1px solid yellow; */
 }
 
 ul span {
@@ -54,10 +64,10 @@ ul span {
     background-color: white;
     color: black;
     padding: 2px;
-    border: 1px solid black;
+    /* border: 1px solid yellow; */
 }
 
 ul span:hover {
-    background-color: aquamarine;
+    background-color: #3a292f;
 }
 
