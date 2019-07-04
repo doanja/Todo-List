@@ -3,7 +3,7 @@ document.getElementById("addButton").addEventListener("click", addItem);
 
 // when span is press, add a <li>
 function addItem(){
-    let inputTxt = document.getElementById("input_text").value; // grabs input text
+    let inputTxt = document.getElementById("inputTask").value; // grabs input text
     
     let li = document.createElement("li");                      // creates <li>                                             // 
     createP(li, inputTxt);                                      // creates and puts inputTxt into <p>
@@ -13,10 +13,10 @@ function addItem(){
     if(inputTxt === ''){
         alert("Enter something...");
     }
-    else { // else add the <li> to the <ul>
+    else { // else add the <li> to the <div>
         let pTag = document.getElementById("pTxt");
-        document.getElementById("todoList").appendChild(li);    // append <li> to <ul>
-        document.getElementById("input_text").value = '';       // clears input
+        document.getElementById("list").appendChild(li);    // append <li> to <div>
+        document.getElementById("inputTask").value = '';       // clears input
     }
 }
 
@@ -45,6 +45,10 @@ function createP(node, inputTxt){
     let isEditing = false;
 
     // when <p> is created, create <input>, transfer <p> text into <input>
+    /*
+    on click , create input inside of p and create a ok spann, copy text into input, clear p,
+    on click ok span --> copy input into p, clear and hide input, hide ok span
+    */
     p.onclick = function(){
         isEditing = true;
         if(isEditing === true){

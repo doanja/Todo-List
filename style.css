@@ -2,7 +2,7 @@ body {
     background-color: #616161;
 }
 
-.headerInput {
+.wrap {
     width: 50%;
     background-color: #3a292f;
     color: white;
@@ -11,12 +11,12 @@ body {
     padding-bottom: 20px;
 }
 
-.headerInput h1 {
+.wrap h1 {
     text-align: center;
     padding-top: 20px;
 }
 
-.headerInput input {
+.wrap input {
     width: 60%;
     padding: 10px;
 }
@@ -32,7 +32,7 @@ body {
     background-color: #3a292f;
 }
 
-ul {
+#list {
     width: 90%;
     text-align: left;
     background-color: #4c4c4c;
@@ -40,26 +40,26 @@ ul {
     list-style: none;
 }
 
-ul li:nth-child(even){
+#list li:nth-child(even){
     background-color: #6b6a6a;
 }
 
-ul li:hover {
+#list li:hover {
     background-color: #46383d;
 }
 
-ul li {
+#list li {
     height: 25px;
     padding: 8px;
     /* border: 1px solid yellow; */
 }
 
-ul p {
+#list p {
     display: inline;
     /* border: 1px solid yellow; */
 }
 
-ul span {
+#list span {
     float: right;
     background-color: white;
     color: black;
@@ -67,7 +67,7 @@ ul span {
     /* border: 1px solid yellow; */
 }
 
-ul span:hover {
+#list span:hover {
     background-color: #3a292f;
 }
 
