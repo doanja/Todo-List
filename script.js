@@ -56,8 +56,17 @@ function createOKBtn(node, text){
     span.textContent = "ok";                    // span's text
     node.appendChild(span);                     // append this <span> to node <li>
     let p = createP(node, text);                // creates and puts inputTxt into <p>
+    
+    p.addEventListener('keydown', disableNewLines);    // disable enter key / new lines
 
     span.onclick = function() {
         p.contentEditable = false;              // prevent <p> from being editable
+    }
+}
+
+// prevents new lines from being created when content is editable
+function disableNewLines(e) {
+    if (e.keyCode === 13) {
+        this.contentEditable = false; // <p> no longer editable
     }
 }
