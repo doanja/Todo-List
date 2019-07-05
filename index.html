@@ -11,9 +11,10 @@
 <body>
     <div class="wrap">
         <h1>My To Do List</h1>
-        <input type="text" id="inputTask" placeholder="Enter text here...">
+        <input type="text" id="inputTask" onkeyup="filterList()" placeholder="Enter text here...">
         <span id="addButton">add</span>
-        
+        <!-- <span id="clear">clear</span> -->
+
         <br><br>
 
         <div id="list">

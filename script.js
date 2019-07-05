@@ -1,8 +1,6 @@
 // listens for span click
 document.getElementById("addButton").addEventListener("click", addItem);
 
-
-
 // when span is press, add a <li>
 function addItem(){
     let inputTxt = document.getElementById("inputTask").value; // grabs input text
@@ -15,9 +13,9 @@ function addItem(){
         alert("Enter something...");
     }
     else { // else add the <li> to the <div>
-        let pTag = document.getElementById("pTxt");             // grabs pTag element
         document.getElementById("list").appendChild(li);        // append <li> to <div>
         document.getElementById("inputTask").value = '';        // clears input
+        clearFilter();                                          // show all <li>
     }
 }
 
@@ -45,7 +43,6 @@ function createP(node, text){
     p.onclick = function(){
         p.contentEditable = true;               // allow <p> from being editable
     }
-
     return p;                                   // returns <p>
 }
 
@@ -67,6 +64,36 @@ function createOKBtn(node, text){
 // prevents new lines from being created when content is editable
 function disableNewLines(e) {
     if (e.keyCode === 13) {
-        this.contentEditable = false; // <p> no longer editable
+        this.contentEditable = false;           // <p> no longer editable
+    }
+}
+
+// function to filter <li> (non-case sensitive)
+function filterList(){
+    let inputTxt = document.getElementById("inputTask").value;          // grabs input text 
+    let inputTxtUpperCase = inputTxt.toUpperCase();                     // changes input to upper case
+    let list = document.getElementById("list");                         // gets our <div> list
+    let li = list.getElementsByTagName('li');                           // grabs the <li>
+    let i, p, txtValue;
+    
+    // loop through all <li>
+    for(i = 0; i < li.length; i++){                                     
+        p = li[i].getElementsByTagName("p")[0];                         // grabs <p>
+        txtValue = p.textContent || p.innerText;                        // grabs text from <p>
+        if(txtValue.toUpperCase().indexOf(inputTxtUpperCase) > -1){     // ? compares txtValue to the input
+            li[i].style.display = "";                                   // display matching items
+        } 
+        else {
+            li[i].style.display = "none";                               // hide non-matching items
+        }
+    }
+}
+
+// clears the filter for <li>
+function clearFilter(){
+    let list = document.getElementById("list");     // gets our <div> list
+    let li = list.getElementsByTagName('li');       // grabs the <li>
+    for(i = 0; i < li.length; i++){                 // for all <li>
+        li[i].style.display = "";                   // display the <i>
     }
 }
