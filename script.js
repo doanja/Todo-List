@@ -1,14 +1,14 @@
 // listens for span click
 document.getElementById("addButton").addEventListener("click", addItem);
 
+
+
 // when span is press, add a <li>
 function addItem(){
     let inputTxt = document.getElementById("inputTask").value; // grabs input text
-    
-    let li = document.createElement("li");                      // creates <li>                                             // 
-    createP(li, inputTxt);                                      // creates and puts inputTxt into <p>
-    createDelBtn(li);                                           // creates and appends delete <span>
-    createOKBtn(li);                                            // creates and appends ok <span>
+    let li = document.createElement("li");                     // creates <li>
+    createDelBtn(li);                                          // creates and appends delete <span>
+    createOKBtn(li, inputTxt);                                 // creates and appends ok <span>
 
     // if nothing was inputted...
     if(inputTxt === ''){
@@ -41,20 +41,23 @@ function createP(node, text){
     p.id = "pTxt";                              // creates id for <p>
     p.textContent = text;                       // puts inputTxt into <p>
     node.appendChild(p);                        // put <p> into <li>
-
+    
     p.onclick = function(){
         p.contentEditable = true;               // allow <p> from being editable
     }
+
+    return p;                                   // returns <p>
 }
 
 // creates ok <span> and appends to <li>
-function createOKBtn(node){
+function createOKBtn(node, text){
     let span = document.createElement("span");  // create <span>
     span.id = "ok";                             // tags the ok span
     span.textContent = "ok";                    // span's text
     node.appendChild(span);                     // append this <span> to node <li>
+    let p = createP(node, text);                // creates and puts inputTxt into <p>
 
     span.onclick = function() {
-        node.contentEditable = false;           // prevent <p> from being editable
+        p.contentEditable = false;              // prevent <p> from being editable
     }
 }
