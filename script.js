@@ -1,9 +1,11 @@
+const MAX_INPUT_LENGTH = 40;
+
 // listens for span click
 document.getElementById("addButton").addEventListener("click", addItem);
 
 // when span is press, add a <li>
 function addItem(){
-    let inputTxt = document.getElementById("inputTask").value; // grabs input text
+    let inputTxt = truncateText(document.getElementById("inputTask").value, MAX_INPUT_LENGTH); // grabs input text
     let li = document.createElement("li");                     // creates <li>
     createDelBtn(li);                                          // creates and appends delete <span>
     createOKBtn(li, inputTxt);                                 // creates and appends ok <span>
@@ -39,7 +41,8 @@ function createP(node, text){
     p.id = "pTxt";                              // creates id for <p>
     p.textContent = text;                       // puts inputTxt into <p>
     node.appendChild(p);                        // put <p> into <li>
-    
+
+
     p.onclick = function(){
         p.contentEditable = true;               // allow <p> from being editable
     }
@@ -54,10 +57,11 @@ function createOKBtn(node, text){
     node.appendChild(span);                     // append this <span> to node <li>
     let p = createP(node, text);                // creates and puts inputTxt into <p>
     
-    p.addEventListener('keydown', disableNewLines);    // disable enter key / new lines
+    p.addEventListener("keydown", disableNewLines);    // disable enter key / new lines
 
     span.onclick = function() {
         p.contentEditable = false;              // prevent <p> from being editable
+        p.textContent = truncateText(p.textContent, MAX_INPUT_LENGTH);
     }
 }
 
@@ -96,4 +100,12 @@ function clearFilter(){
     for(i = 0; i < li.length; i++){                 // for all <li>
         li[i].style.display = "";                   // display the <i>
     }
+}
+
+// 
+function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+        text = text.substr(0,maxLength);
+    }
+    return text;
 }

@@ -1,10 +1,10 @@
 body {
-    background-color: #82b5b4;
+    background-color: #d3d3d3;
 }
 
 .wrap {
     width: 50%;
-    background-color: #499695;
+    background-color: #489687;
     color: #fff;
     margin: auto;
     text-align: center;
@@ -38,30 +38,27 @@ span:hover {
 #list {
     width: 90%;
     text-align: left;
-    background-color: #656565;
+    background-color: #fff;
     margin: auto;
     list-style: none;
-    border-radius: 8px;
-}
-
-#list li:nth-child(even){
-    background-color: #808080;
+    /* border-radius: 8px; */
 }
 
 #list li:hover {
-    background-color: #82b5b4;
+    background-color: #d3d3d3;
 }
 
 #list li {
     height: 25px;
     padding: 8px;
-    /* border: 1px solid yellow; */
+    border: 1px solid #000;
 }
 
 #list p {
     display: inline;
     text-overflow: ellipsis;
     max-width: 50%;
+    color: #000
     /* border: 1px solid yellow; */
 }
 
@@ -70,5 +67,5 @@ span:hover {
     margin-right: 3px;
     width: 40px;
     text-align: center;
-    /* border: 1px solid yellow; */
+    /* border: 1px solid #000; */
 }
