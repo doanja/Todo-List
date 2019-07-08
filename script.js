@@ -23,7 +23,6 @@ function addItem(){
     else { // else add the <li> to the <div>
         document.getElementById("list").appendChild(li);        // append <li> to <div>
         document.getElementById("inputTask").value = '';        // clears input
-        document.getElementById("ok").style.visibility = "hidden";
     }
 }
 
@@ -57,12 +56,6 @@ function createP(node, text){
     p.id = "pTxt";                              // creates id for <p>
     p.textContent = text;                       // sets the text content
     node.appendChild(p);                        // append it to the parent node
-
-    p.onclick = function(){
-        createInput(node,text);                 // creates <input>
-        removeElement("pTxt");                  // removes <p>
-        document.getElementById("ok").style.visibility = "visible"; // display the ok button
-    }
 }
 
 /*
@@ -73,7 +66,7 @@ function createP(node, text){
 function createInput(node, text){
     let input = document.createElement("input");    // creates <input>
     input.id = "pInput";                            // creates id for <input>
-    input.textContent = text;                       // sets the text content
+    input.placeholder = text;                       // displays placeholder text
     input.maxLength = MAX_INPUT_LENGTH;             // limits input length
     node.appendChild(input);                        // append it to the parent node
 }
@@ -92,10 +85,21 @@ function createOKBtn(node, text){
     node.appendChild(span);                     // append it to the parent node
     createP(node, text);                        // creates and puts text into <p>
 
+    let isEdit = false;
+
     span.onclick = function() {
-        createP(node,document.getElementById("pInput").value);      // renders the <p> with text from <input
-        removeElement("pInput");                                    // removes the <input>
-        document.getElementById("ok").style.visibility = "hidden";  // hides the ok <span>
+        // console.log(isEdit);
+        if(isEdit === true){
+            // console.log(document.getElementById("pInput").value);
+            createP(node,document.getElementById("pInput").value);      // renders the <p> with text from <input
+            removeElement("pInput");                                    // removes the <input>
+            isEdit = false;
+        }
+        else if(isEdit === false){
+            createInput(node,text);                 // creates <input>
+            removeElement("pTxt");                  // removes <p>
+            isEdit = true;
+        }
     }
 }
 
@@ -106,7 +110,7 @@ function filterList(){
     let inputTxt = document.getElementById("inputFilter").value;        // grabs input text 
     let inputTxtUpperCase = inputTxt.toUpperCase();                     // changes input to upper case
     let list = document.getElementById("list");                         // gets our <div> list
-    let li = list.getElementsByTagName('li');                           // grabs the <li>
+    let li = list.getElementsByTagName("li");                           // grabs the <li>
     let i, p, txtValue;
     
     // loop through all <li>
@@ -138,7 +142,9 @@ function truncateText(text, maxLength) {
 *   @elementId, the child element to be rmeoved
 *   removes the child element
 */
-function removeElement(elementId){
-    let elem = document.getElementById(elementId);
-    elem.parentElement.removeChild(elem);
+function removeElement(targetElement){
+    let element = document.getElementById(targetElement);
+    element.parentElement.removeChild(element);
+    console.log(element);
+    // console.log(elem.parentElement);
 }
