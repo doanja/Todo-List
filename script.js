@@ -11,7 +11,7 @@ document.getElementById("addButton").addEventListener("click", addItem);
 *   clears <input> after clicking ok
 */ 
 function addItem(){
-    let inputTxt = truncateText(document.getElementById("inputTask").value, MAX_INPUT_LENGTH); // grabs input text
+    let inputTxt = truncateText(document.getElementById("inputTask").value.trim(), MAX_INPUT_LENGTH); // grabs input text
     let li = document.createElement("li");                     // creates <li>
     createDelBtn(li);                                          // creates and appends delete <span>
     createOKBtn(li, inputTxt);                                 // creates and appends ok <span>
@@ -22,7 +22,7 @@ function addItem(){
     }
     else { // else add the <li> to the <div>
         document.getElementById("list").appendChild(li);        // append <li> to <div>
-        document.getElementById("inputTask").value = '';        // clears input
+        document.getElementById("inputTask").value = "";        // clears input
     }
 }
 
@@ -33,7 +33,6 @@ function addItem(){
 */
 function createDelBtn(node){
     let span = document.createElement("span");          // create <span>
-    span.id = "delete";                                 // tags the delete span
     span.textContent = "delete";                        // span's text
     node.appendChild(span);                             // append it to the parent node
     
@@ -53,9 +52,9 @@ function createDelBtn(node){
 */
 function createP(node, text){
     let p = document.createElement("p");        // creates <p>
-    p.id = "pTxt";                              // creates id for <p>
     p.textContent = text;                       // sets the text content
     node.appendChild(p);                        // append it to the parent node
+    return p;
 }
 
 /*
@@ -65,10 +64,10 @@ function createP(node, text){
 */
 function createInput(node, text){
     let input = document.createElement("input");    // creates <input>
-    input.id = "pInput";                            // creates id for <input>
     input.placeholder = text;                       // displays placeholder text
     input.maxLength = MAX_INPUT_LENGTH;             // limits input length
     node.appendChild(input);                        // append it to the parent node
+    return input;
 }
 
 /* 
@@ -79,26 +78,28 @@ function createInput(node, text){
 *   the <input>, and renders <p>
 */
 function createOKBtn(node, text){
-    let span = document.createElement("span");  // create <span>
-    span.id = "ok";                             // creats id for <span>
-    span.textContent = "ok";                    // sets the text content
-    node.appendChild(span);                     // append it to the parent node
-    createP(node, text);                        // creates and puts text into <p>
-
-    let isEdit = false;
+    let span = document.createElement("span");      // create <span>
+    span.textContent = "edit";                      // sets the text content
+    node.appendChild(span);                         // append it to the parent node
+    
+    let p = createP(node, text);                    // creates and puts text into <p>
+    
+    let isEdit = false;                         
 
     span.onclick = function() {
-        // console.log(isEdit);
-        if(isEdit === true){
-            // console.log(document.getElementById("pInput").value);
-            createP(node,document.getElementById("pInput").value);      // renders the <p> with text from <input
-            removeElement("pInput");                                    // removes the <input>
-            isEdit = false;
-        }
-        else if(isEdit === false){
-            createInput(node,text);                 // creates <input>
-            removeElement("pTxt");                  // removes <p>
+        if(isEdit === false){
+            let input = createInput(node,text);         // renders and get <input> reference
+            let currentP = node.querySelector("p");     // search for <p> inside <li>
+            currentP.remove();                          // remove <p> from <li>
+            span.textContent = "save";                  // change <span> text
             isEdit = true;
+        }
+        else if(isEdit === true){
+            let newInput = node.querySelector("input"); // search for <input> inside <li>
+            createP(node,newInput.value);               // renders the <p> with text from <input>
+            newInput.remove();                          // remove newInput <input> from <li>
+            span.textContent = "edit";                  // change <span> text
+            isEdit = false;
         }
     }
 }
@@ -114,11 +115,11 @@ function filterList(){
     let i, p, txtValue;
     
     // loop through all <li>
-    for(i = 0; i < li.length; i++){                                     
-        p = li[i].getElementsByTagName("p")[0];                         // grabs <p>
+    for(i = 0; i < li.length; i++){
+        p = li[i].querySelector("p");                                   // grabs first instance of <p> in <li>
         txtValue = p.textContent || p.innerText;                        // grabs text from <p>
-        if(txtValue.toUpperCase().indexOf(inputTxtUpperCase) > -1){     // ? compares txtValue to the input
-            li[i].style.display = "";                                   // display matching items
+        if(txtValue.toUpperCase().indexOf(inputTxtUpperCase) > -1){     // finding txtValue or a substring of txtValue
+            li[i].style.display = "visible";                            // display matching items
         } 
         else {
             li[i].style.display = "none";                               // hide non-matching items
@@ -136,15 +137,4 @@ function truncateText(text, maxLength) {
         text = text.substr(0,maxLength);    // trim the text
     }
     return text;
-}
-
-/*
-*   @elementId, the child element to be rmeoved
-*   removes the child element
-*/
-function removeElement(targetElement){
-    let element = document.getElementById(targetElement);
-    element.parentElement.removeChild(element);
-    console.log(element);
-    // console.log(elem.parentElement);
 }
