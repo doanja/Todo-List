@@ -14,15 +14,15 @@ window.onload = () => {
 
 /*
 *   renders the <li> item child under <div id="list">
-*   renders deconste <span> used to hide <div id="list">
-*   renders hidden <span> used to modify changes to <p>
+*   renders deconste <button> used to hide <div id="list">
+*   renders hidden <button> used to modify changes to <p>
 *   clears <input> after clicking ok
 */ 
 const addListItem = () => {
     const inputText = truncateText(getInputText("inputTask"), MAX_INPUT_LENGTH);    // grabs input text
-    const li = document.createElement("li");                     // creates <li> element
-    createDelBtn(li);                                            // renders <span> used to delete <li>
-    createChngBtn(li, inputText);                                // renders <span> used to modify <p>
+    const li = createListItem();                                 // creates <li> element
+    createDelBtn(li);                                            // renders <button> used to delete <li>
+    createChngBtn(li, inputText);                                // renders <button> used to modify <p>
 
     // if nothing was inputted...
     if(inputText === ''){
@@ -44,18 +44,26 @@ const clearInputText = () => {
     document.getElementById("inputTask").value = "";
 }
 
+// create <li>
+const createListItem = () => {
+    const li = document.createElement("li");                     
+    li.className = "list-group-item bg-light";
+    return li;
+}
+
 /*  
 *   @element, the parent element (<li> in this case)
-*   renders the <span> element and appends it to <li>.
-*   clicking the <span> will hide <li> from the list
+*   renders the <button> element and appends it to <li>.
+*   clicking the <button> will hide <li> from the list
 */
 const createDelBtn = (element) => {
-    const span = document.createElement("span");            // create <span>
-    span.textContent = "delete";                            // span's text
-    element.appendChild(span);                              // append it to the parent element
+    const button = document.createElement("button");            // create <button>
+    button.textContent = "delete";                            // button's text
+    button.className = "float-right btn btn-danger";
+    element.appendChild(button);                              // append it to the parent element
     
-    // handles deconste functionality of the deconste span
-    span.onclick = function() {
+    // handles deconste functionality of the deconste button
+    button.onclick = function() {
         const div = this.parentElement;                     // <li> is the parent
         div.style.display = "none";                         // hides <li>
     }
@@ -88,31 +96,32 @@ const createInput = (element, text) => {
 
 /* 
 *   @element, the parent element (<li> in this case)
-*   @text, the text to be displayed in <span>
-*   renders the ok <span>
-*   clicking the span will hide this <span>,
+*   @text, the text to be displayed in <button>
+*   renders the ok <button>
+*   clicking the button will hide this <button>,
 *   the <input>, and renders <p>
 */
 const createChngBtn = (element, text) => {
-    const span = document.createElement("span");    // create <span>
-    span.textContent = "edit";                      // sets the text content
-    element.appendChild(span);                      // append it to the parent element
+    const button = document.createElement("button");    // create <button>
+    button.textContent = "edit";                      // sets the text content
+    button.className = "float-right btn btn-primary";
+    element.appendChild(button);                      // append it to the parent element
     createP(element, text);                         // creates and puts text into <p>
-    let isEdit = false;                             // handles what state the <span> is in
+    let isEdit = false;                             // handles what state the <button> is in
 
-    span.onclick = function() {
+    button.onclick = function() {
         if(isEdit === false){
             const currentP = element.querySelector("p");    // search for <p> inside <li>
             createInput(element,currentP.textContent);      // renders <input>
             currentP.remove();                              // remove <p> from <li>
-            span.textContent = "save";                      // change <span> text
+            button.textContent = "save";                      // change <button> text
             isEdit = true;
         }
         else if(isEdit === true){
             const newInput = element.querySelector("input");    // search for <input> inside <li>
             createP(element,newInput.value);                    // renders the <p> with text from <input>
             newInput.remove();                                  // remove <input> from <li>
-            span.textContent = "edit";                          // change <span> text
+            button.textContent = "edit";                          // change <button> text
             isEdit = false;
         }
     }
