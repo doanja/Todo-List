@@ -1,4 +1,4 @@
-body {
+/* body {
     background-color: #d3d3d3;
 }
 
@@ -41,7 +41,6 @@ span:hover {
     background-color: #fff;
     margin: auto;
     list-style: none;
-    /* border-radius: 8px; */
 }
 
 #list li:hover {
@@ -59,13 +58,28 @@ span:hover {
     text-overflow: ellipsis;
     max-width: 50%;
     color: #000
-    /* border: 1px solid yellow; */
 }
 
-/* #list span {
+#list span {
     float: right;
     margin-right: 3px;
     width: 40px;
     text-align: center;
-    /* border: 1px solid #000; */
-} */
+} 
+*/
+
+.list-group-hover .list-group-item:hover {
+    background-color: #489687;
+}
+
+.container {
+    background-color: #ece9e5;
+}
+
+.container h1 {
+    text-align: center;
+}
+
+.container p {
+    font-family: 'Calibri';
+}

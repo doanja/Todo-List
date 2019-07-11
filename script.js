@@ -7,9 +7,16 @@ const attachAddBtnListener = () => {
     addBtn.addEventListener("click", addListItem);
 }
 
+// listens for clear button click
+const attachClearBtnListener = () => {
+    const clearBtn = document.getElementById("clearFilters");
+    clearBtn.addEventListener("click", clearFilters);
+}
+
 // executes these functions on page load
 window.onload = () => {
     attachAddBtnListener();
+    attachClearBtnListener();
 }
 
 /*
@@ -104,7 +111,7 @@ const createInput = (element, text) => {
 const createChngBtn = (element, text) => {
     const button = document.createElement("button");    // create <button>
     button.textContent = "edit";                      // sets the text content
-    button.className = "float-right btn btn-primary";
+    button.className = "float-right btn btn-secondary";
     element.appendChild(button);                      // append it to the parent element
     createP(element, text);                         // creates and puts text into <p>
     let isEdit = false;                             // handles what state the <button> is in
@@ -147,6 +154,19 @@ const filterList = () => {
         else {
             li[i].style.display = "none";                               // hide non-matching items
         }
+    }
+}
+
+// clear the filter input
+const clearFilters = () => {
+    document.getElementById("inputFilter").value = "";      // clears text inputFilter
+    const list = document.getElementById("list");           // gets our <div> list
+    const li = list.getElementsByTagName("li");             // grabs the <li>
+    let i;
+
+    // loop through and display all <li>
+    for(i = 0; i < li.length; i++){
+        li[i].style.display = "";
     }
 }
 
