@@ -68,16 +68,8 @@ span:hover {
 } 
 */
 
-.list-group-hover .list-group-item:hover {
-    background-color: #489687;
-}
-
 .container {
     background-color: #ece9e5;
-}
-
-.container h1 {
-    text-align: center;
 }
 
 .container p {
