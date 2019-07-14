@@ -41,6 +41,22 @@ const addListItem = () => {
     }
 }
 
+const addListItemFromJSON = (text) => {
+    const inputText = truncateText(text, MAX_INPUT_LENGTH);    // grabs input text
+    const li = createListItem();                                 // creates <li> element
+    createDelBtn(li);                                            // renders <button> used to delete <li>
+    createChngBtn(li, inputText);                                // renders <button> used to modify <p>
+
+    // if nothing was inputted...
+    if(inputText === ''){
+        alert("Enter something...");
+    }
+    else { // else add and render the <li> to the <div id="list">
+        document.getElementById("list").appendChild(li);        // append <li> to <div id="list">
+        clearInputText();
+    }
+}
+
 // gets input
 const getInputText = (element) => {
     return document.getElementById(element).value.trim();
@@ -180,4 +196,20 @@ const truncateText = (text, maxLength) => {
         text = text.substr(0,maxLength);    // trim the text
     }
     return text;
+}
+
+// JSON
+document.getElementById('getPosts').addEventListener('click', loadList);
+
+function loadList() {
+    fetch("https://api.myjson.com/bins/p05q7")
+        .then((res) => res.json())
+        .then((data) => {
+            let i;
+            for(i = 0; i < data.length; i++){
+                addListItemFromJSON(data[i].name 
+                    + ", Age: " + data[i].age
+                    + ", Gender: " + data[i].gender);
+            }
+        })
 }
