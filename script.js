@@ -217,13 +217,39 @@ const loadList = () => {
 
 document.getElementById('getPosts').addEventListener('click', loadList);
 
+var objects = {};
+
 const postList = () => {
-    for (let i = 0; i < globalList.length; i++) {
-      console.log(globalList[i]);
+    const a = new XMLHttpRequest();
+
+    a.onload = function(){
+        const serverResponse = document.getElementById("serverResponse");
+        serverResponse.innerHTML = this.responseText;
     }
+    // a.open("POST", "https://api.myjson.com/bins/p05q7", true);
+    // a.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // a.onreadystatechange = () => {
+    //     if(this.onreadystatechange == 4){
+    //         for (let i = 0; i < globalList.length; i++) {
+    //             a.send("name" + globalList[i]);
+    //         }
+    //     }
+    // }
+
+    a.open("POST", "https://jsonplaceholder.typicode.com/posts");
+    a.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // a.send("name=fred&message=how's it going");
+    for (let i = 0; i < globalList.length; i++) {
+        objects[i] = {name: globalList[i]};
+        
+        
+    }
+    a.send(JSON.stringify(objects[1]));
+    console.log(objects);
+    
+
+    
 }
 
 document.getElementById('test').addEventListener('click', postList);
 
-URL url = new URL ("https://api.myjson.com/bins/p05q7");
-HttpURLConnection con = (HttpURLConnection)url.openConnection();
