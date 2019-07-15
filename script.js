@@ -1,5 +1,6 @@
 const globalList = [];
 
+
 // character limit
 const MAX_INPUT_LENGTH = 40;
 
@@ -201,55 +202,60 @@ const truncateText = (text, maxLength) => {
     return text;
 }
 
-// JSON
+// JSON "https://api.myjson.com/bins/p05q7"
 const loadList = () => {
-    fetch("https://api.myjson.com/bins/p05q7")
-        .then((res) => res.json())
-        .then((data) => {
-            let i;
-            for(i = 0; i < data.length; i++){
-                addListItemFromJSON(data[i].name 
-                    + ", Age: " + data[i].age
-                    + ", Gender: " + data[i].gender);
-            }
-        })
+    fetch("https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c", {
+        method: "GET",
+        headers: {
+            "Accept" : "application/json",
+            "secret-key" : "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC"
+        }
+    })
+        
+    .then((res) => {
+        if(res.ok){
+            return res.json()
+        } else {
+            throw new Error('bad http'); // jumps down to catch
+        }
+        
+    })
+    .then((data) => {
+        let i;
+        for(i = 0; i < data.length; i++){
+            addListItemFromJSON(data[i].name 
+                + ", Age: " + data[i].age
+                + ", Gender: " + data[i].gender);
+        }
+    })
+    .catch((err) => {
+        console.log("error: " + err.message);
+    })
 }
 
 document.getElementById('getPosts').addEventListener('click', loadList);
 
-var objects = {};
+const objects = {};
 
 const postList = () => {
-    const a = new XMLHttpRequest();
-
-    a.onload = function(){
-        const serverResponse = document.getElementById("serverResponse");
-        serverResponse.innerHTML = this.responseText;
+    /*
+    if (req.readyState == XMLHttpRequest.DONE) {
+        console.log(req.responseText);
     }
-    // a.open("POST", "https://api.myjson.com/bins/p05q7", true);
-    // a.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    // a.onreadystatechange = () => {
-    //     if(this.onreadystatechange == 4){
-    //         for (let i = 0; i < globalList.length; i++) {
-    //             a.send("name" + globalList[i]);
-    //         }
-    //     }
-    // }
-
-    a.open("POST", "https://jsonplaceholder.typicode.com/posts");
-    a.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    // a.send("name=fred&message=how's it going");
+    */
     for (let i = 0; i < globalList.length; i++) {
-        objects[i] = {name: globalList[i]};
-        
-        
+        let req = new XMLHttpRequest();
+        objects[i] = {listItem: globalList[i]};
+        try {
+            req.open("PUT", "https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c");
+            req.setRequestHeader("Content-type", "application/json");
+            req.setRequestHeader("secret-key", "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC");
+            req.send(JSON.stringify(objects[i]));
+        } catch(err){
+            console.log("error has occured: " + error.response.data);
+        }
     }
-    a.send(JSON.stringify(objects[1]));
-    console.log(objects);
-    
-
-    
 }
 
-document.getElementById('test').addEventListener('click', postList);
+document.getElementById('putPosts').addEventListener('click', postList);
 
