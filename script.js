@@ -1,3 +1,5 @@
+const globalList = [];
+
 // character limit
 const MAX_INPUT_LENGTH = 40;
 
@@ -37,6 +39,7 @@ const addListItem = () => {
     }
     else { // else add and render the <li> to the <div id="list">
         document.getElementById("list").appendChild(li);        // append <li> to <div id="list">
+        globalList.push(inputText);
         clearInputText();
     }
 }
@@ -199,9 +202,7 @@ const truncateText = (text, maxLength) => {
 }
 
 // JSON
-document.getElementById('getPosts').addEventListener('click', loadList);
-
-function loadList() {
+const loadList = () => {
     fetch("https://api.myjson.com/bins/p05q7")
         .then((res) => res.json())
         .then((data) => {
@@ -213,3 +214,16 @@ function loadList() {
             }
         })
 }
+
+document.getElementById('getPosts').addEventListener('click', loadList);
+
+const postList = () => {
+    for (let i = 0; i < globalList.length; i++) {
+      console.log(globalList[i]);
+    }
+}
+
+document.getElementById('test').addEventListener('click', postList);
+
+URL url = new URL ("https://api.myjson.com/bins/p05q7");
+HttpURLConnection con = (HttpURLConnection)url.openConnection();
