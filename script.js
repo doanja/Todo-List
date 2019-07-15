@@ -235,26 +235,45 @@ const loadList = () => {
 
 document.getElementById('getPosts').addEventListener('click', loadList);
 
-const objects = {};
 
 const postList = () => {
-    /*
-    if (req.readyState == XMLHttpRequest.DONE) {
-        console.log(req.responseText);
-    }
-    */
+    const objects = {};
     for (let i = 0; i < globalList.length; i++) {
-        let req = new XMLHttpRequest();
         objects[i] = {listItem: globalList[i]};
-        try {
-            req.open("PUT", "https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c");
-            req.setRequestHeader("Content-type", "application/json");
-            req.setRequestHeader("secret-key", "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC");
-            req.send(JSON.stringify(objects[i]));
-        } catch(err){
-            console.log("error has occured: " + error.response.data);
-        }
+       
     }
+    // console.log(objects);
+    // let req = new XMLHttpRequest();
+    // if (req.readyState == XMLHttpRequest.DONE) {
+    //     console.log(req.responseText);
+    // }
+    
+    // try {
+    //     req.open("PUT", "https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c");
+    //     req.setRequestHeader("Content-type", "application/json");
+    //     req.setRequestHeader("secret-key", "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC");
+    //     req.send(JSON.stringify(objects));
+    // } catch(err){
+    //     console.log("error has occured: " + error.response.data);
+    // }
+    
+
+    fetch("https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c", {
+        method: "PUT",  
+        headers: {
+            "Accept" : "application/json",
+            "Content-type" : "application/json",
+            "secret-key" : "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC"
+        },
+        body: 
+            JSON.stringify(objects)
+    })
+    .then(function (data) {
+        console.log('Request success: ', data);  
+    })  
+    .catch(function (error) {  
+        console.log('Request failure: ', error);  
+    });
 }
 
 document.getElementById('putPosts').addEventListener('click', postList);
