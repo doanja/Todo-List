@@ -209,19 +209,25 @@ const truncateText = (text, maxLength) => {
 */
 const formatGlobalList = (array) => {
     const objects = {};
-    for (let i = 0; i < array.length; i++) {
-        objects[i] = {listItem: globalList[i]};
-    }
+    array.forEach((i) => {
+        objects[i] = {listItem: i};
+    })
     return objects;
 }
 
+/*
+*   @text, the text to be displayed in html
+*   sets the error text in the html
+*/
 const setErrorHeader = (text) => {
     document.getElementById("errorH1").textContent = text;
 }
 
-// JSON "https://api.myjson.com/bins/p05q7"
+const url = "https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c";
+
+// fetches data from API
 const loadList = () => {
-    fetch("https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c", {
+    fetch(url, {
         method: "GET",
         headers: {
             "Accept" : "application/json",
@@ -243,14 +249,16 @@ const loadList = () => {
         }
     })
     .catch((err) => {
-        console.log("error: " + err.message);
+        console.log("Request failure:", err.message)
+        return setErrorHeader("error sending data...")
     })
 }
 
+// posts data to API
 const postList = () => {
     const objects = formatGlobalList(globalList);
 
-    fetch("https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c", {
+    fetch(url, {
         method: "PUT",  
         headers: {
             "Accept" : "application/json",
@@ -268,5 +276,8 @@ const postList = () => {
         }
     })
     .then((res) => console.log("Request success: ", res))  
-    .catch((err) => console.log("Request failure: " + err.message))
+    .catch((err) => {
+        console.log("Request failure:", err.message)
+        return setErrorHeader("error sending data...")
+    })
 }
