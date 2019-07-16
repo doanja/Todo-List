@@ -20,6 +20,8 @@ const attachClearBtnListener = () => {
 window.onload = () => {
     attachAddBtnListener();
     attachClearBtnListener();
+    document.getElementById('getPosts').addEventListener('click', loadList);
+    document.getElementById('putPosts').addEventListener('click', postList);
 }
 
 /*
@@ -201,6 +203,21 @@ const truncateText = (text, maxLength) => {
     }
     return text;
 }
+/*
+*   @array, array used to create a JSON Object
+*   @returns an JSON like object
+*/
+const formatGlobalList = (array) => {
+    const objects = {};
+    for (let i = 0; i < array.length; i++) {
+        objects[i] = {listItem: globalList[i]};
+    }
+    return objects;
+}
+
+const setErrorHeader = (text) => {
+    document.getElementById("errorH1").textContent = text;
+}
 
 // JSON "https://api.myjson.com/bins/p05q7"
 const loadList = () => {
@@ -211,21 +228,18 @@ const loadList = () => {
             "secret-key" : "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC"
         }
     })
-        
     .then((res) => {
-        if(res.ok){
-            return res.json()
+        if(!res.ok){
+            return setErrorHeader("error fetching data...")
         } else {
-            throw new Error('bad http'); // jumps down to catch
+            return res.json()
         }
-        
     })
-    .then((data) => {
-        let i;
-        for(i = 0; i < data.length; i++){
-            addListItemFromJSON(data[i].name 
-                + ", Age: " + data[i].age
-                + ", Gender: " + data[i].gender);
+    .then((res) => {
+        for(let i = 0; i < res.length; i++){
+            addListItemFromJSON(res[i].name 
+                + ", Age: " + res[i].age
+                + ", Gender: " + res[i].gender);
         }
     })
     .catch((err) => {
@@ -233,30 +247,8 @@ const loadList = () => {
     })
 }
 
-document.getElementById('getPosts').addEventListener('click', loadList);
-
-
 const postList = () => {
-    const objects = {};
-    for (let i = 0; i < globalList.length; i++) {
-        objects[i] = {listItem: globalList[i]};
-       
-    }
-    // console.log(objects);
-    // let req = new XMLHttpRequest();
-    // if (req.readyState == XMLHttpRequest.DONE) {
-    //     console.log(req.responseText);
-    // }
-    
-    // try {
-    //     req.open("PUT", "https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c");
-    //     req.setRequestHeader("Content-type", "application/json");
-    //     req.setRequestHeader("secret-key", "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC");
-    //     req.send(JSON.stringify(objects));
-    // } catch(err){
-    //     console.log("error has occured: " + error.response.data);
-    // }
-    
+    const objects = formatGlobalList(globalList);
 
     fetch("https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c", {
         method: "PUT",  
@@ -268,13 +260,13 @@ const postList = () => {
         body: 
             JSON.stringify(objects)
     })
-    .then(function (data) {
-        console.log('Request success: ', data);  
-    })  
-    .catch(function (error) {  
-        console.log('Request failure: ', error);  
-    });
+    .then((res) => {
+        if(!res.ok){
+            return setErrorHeader("error sending data...")
+        } else {
+            return res.json()
+        }
+    })
+    .then((res) => console.log("Request success: ", res))  
+    .catch((err) => console.log("Request failure: " + err.message))
 }
-
-document.getElementById('putPosts').addEventListener('click', postList);
-
