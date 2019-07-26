@@ -20,8 +20,9 @@ const attachClearBtnListener = () => {
 window.onload = () => {
     attachAddBtnListener();
     attachClearBtnListener();
-    document.getElementById('getPosts').addEventListener('click', loadList);
-    document.getElementById('putPosts').addEventListener('click', postList);
+    getList();
+    document.getElementById('getPosts').addEventListener('click', getAPI);
+    // document.getElementById('putPosts').addEventListener('click', putList);
 }
 
 /*
@@ -43,24 +44,19 @@ const addListItem = () => {
     else { // else add and render the <li> to the <div id="list">
         document.getElementById("list").appendChild(li);        // append <li> to <div id="list">
         globalList.push(inputText);
+        postList(inputText);
         clearInputText();
     }
 }
 
+// function used to render list and buttons from DB
 const addListItemFromJSON = (text) => {
-    const inputText = truncateText(text, MAX_INPUT_LENGTH);    // grabs input text
+    const inputText = truncateText(text, MAX_INPUT_LENGTH);     // grabs input text
     const li = createListItem();                                 // creates <li> element
     createDelBtn(li);                                            // renders <button> used to delete <li>
     createChngBtn(li, inputText);                                // renders <button> used to modify <p>
 
-    // if nothing was inputted...
-    if(inputText === ''){
-        alert("Enter something...");
-    }
-    else { // else add and render the <li> to the <div id="list">
-        document.getElementById("list").appendChild(li);        // append <li> to <div id="list">
-        clearInputText();
-    }
+    document.getElementById("list").appendChild(li);        // append <li> to <div id="list">
 }
 
 // gets input
@@ -95,6 +91,7 @@ const createDelBtn = (element) => {
     button.onclick = function() {
         const div = this.parentElement;                     // <li> is the parent
         div.style.display = "none";                         // hides <li>
+        deleteListItem();
     }
 }
 
@@ -151,6 +148,7 @@ const createChngBtn = (element, text) => {
             createP(element,newInput.value);                    // renders the <p> with text from <input>
             newInput.remove();                                  // remove <input> from <li>
             button.textContent = "edit";                          // change <button> text
+            updateListItem(newInput.value);
             isEdit = false;
         }
     }
@@ -203,17 +201,13 @@ const truncateText = (text, maxLength) => {
     }
     return text;
 }
-/*
-*   @array, array used to create a JSON Object
-*   @returns an JSON like object
-*/
-const formatGlobalList = (array) => {
-    const objects = {};
-    array.forEach((i) => {
-        objects[i] = {listItem: i};
-    })
-    return objects;
-}
+// /*
+// *   @array, array used to create a JSON Object
+// *   @returns an JSON like object
+// */
+// const formatGlobalList = (array) => {
+//     return json.stringify(array);
+// }
 
 /*
 *   @text, the text to be displayed in html
@@ -223,16 +217,23 @@ const setErrorHeader = (text) => {
     document.getElementById("errorH1").textContent = text;
 }
 
-const url = "https://api.jsonbin.io/b/5d2c8529b6eaae7f0d7ead0c";
+// function to clear list, used to clear before calling a get request
+const clearList = () => {
+    const list = document.getElementById("list");
+    const li = list.getElementsByTagName("li");
 
-// fetches data from API
-const loadList = () => {
+    while(li.length > 0){
+        list.removeChild(li[0]);
+    }
+}
+
+const url = "http://localhost:5000/api/routes/";
+
+// get's all todo li from the api
+const getAPI = () => {
+    clearList();    // clears out list before calling get
     fetch(url, {
-        method: "GET",
-        headers: {
-            "Accept" : "application/json",
-            "secret-key" : "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC"
-        }
+        method: "GET" // WIP: send ID in body to return all todo items that belong to user
     })
     .then((res) => {
         if(!res.ok){
@@ -243,9 +244,7 @@ const loadList = () => {
     })
     .then((res) => {
         for(let i = 0; i < res.length; i++){
-            addListItemFromJSON(res[i].name 
-                + ", Age: " + res[i].age
-                + ", Gender: " + res[i].gender);
+            addListItemFromJSON(res[i].todo);
         }
     })
     .catch((err) => {
@@ -254,28 +253,102 @@ const loadList = () => {
     })
 }
 
-// posts data to API
-const postList = () => {
-    const objects = formatGlobalList(globalList);
-
-    fetch(url, {
-        method: "PUT",  
-        headers: {
-            "Accept" : "application/json",
-            "Content-type" : "application/json",
-            "secret-key" : "$2a$10$ZCZuDRvLTgUcQcosBaNq.OH3i.QH6U1EYfkFMKs3kbbz8Nkhc0MVC"
-        },
-        body: 
-            JSON.stringify(objects)
+// get's all todo li from the api
+const getList = () => {
+    clearList();    // clears out list before calling get
+    fetch("http://localhost:5000/api/routes/0", {
+        method: "GET" // WIP: send ID in body to return all todo items that belong to user
     })
     .then((res) => {
         if(!res.ok){
-            return setErrorHeader("error sending data...")
+            return setErrorHeader("error fetching data...")
         } else {
             return res.json()
         }
     })
-    .then((res) => console.log("Request success: ", res))  
+    .then((res) => {
+        for(let i = 0; i < res.length; i++){
+            addListItemFromJSON(res[i].todo);
+        }
+    })
+    .catch((err) => {
+        console.log("Request failure:", err.message)
+        return setErrorHeader("nothing todo from database...") /* should not error out if the users don't have any */
+    })
+}
+
+// post to the list, used when add is clicked
+const postList = (text) => {
+    fetch("http://localhost:5000/api/routes", {
+        method: "POST",  
+        headers: {
+            "Content-type" : "application/json"
+        },
+        body: 
+            JSON.stringify({ todo: text })
+            /* WIP: SEND THE USER'S ID AND USERNAME */
+    })
+    .then((res) => {
+        if(!res.ok){
+            return setErrorHeader("error posting data in script.js...")
+        } else {
+            return res.json()
+        }
+    })
+    .then((res) => {
+        console.log("Request success: ", res)
+    })
+    .catch((err) => {
+        console.log("Request failure:", err.message)
+        return setErrorHeader("error sending data...")
+    })
+}
+
+// updates specific li ID, called when saved is pressed
+const updateListItem = (text) => {
+    const objects = JSON.stringify({ todo: text });
+
+    fetch("http://localhost:5000/api/routes/0", { /* TODO: */
+        method: "PUT",  
+        headers: {
+            "Content-type" : "application/json"
+        },
+        body: 
+            objects
+    })
+    .then((res) => {
+        if(!res.ok){
+            return setErrorHeader("error putting data in script.js...")
+        } else {
+            return res.json()
+        }
+    })
+    .then((res) => {
+        console.log("Request success: ", res)
+    })
+    .catch((err) => {
+        console.log("Request failure:", err.message)
+        return setErrorHeader("error sending data...")
+    })
+}
+
+const deleteListItem = () => {
+    fetch("http://localhost:5000/api/routes/0", {
+        method: "DELETE",  
+        headers: {
+            "Content-type" : "application/json"
+        }
+    })
+    .then((res) => {
+        if(!res.ok){
+            return setErrorHeader("Delete request not sent: error deleting item")
+        } else {
+            return res.json()
+        }
+    })
+    .then((res) => { /* WIP: why does this display when theres invalid URL */
+        console.log("Request success: ", res)
+    })
     .catch((err) => {
         console.log("Request failure:", err.message)
         return setErrorHeader("error sending data...")
