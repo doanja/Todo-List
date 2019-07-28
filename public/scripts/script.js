@@ -1,7 +1,7 @@
 const globalList = [];
 
 // character limit
-const MAX_INPUT_LENGTH = 40;
+const MAX_INPUT_LENGTH = 80;
 
 // listens for add button click
 const attachAddBtnListener = () => {
@@ -19,9 +19,10 @@ const attachClearBtnListener = () => {
 window.onload = () => {
   attachAddBtnListener();
   attachClearBtnListener();
-  // getList();
-  document.getElementById("getPosts").addEventListener("click", getAPI);
-  document.getElementById('getTodo').addEventListener('click', getList);
+  // getPostByID();
+  document.getElementById("getPosts").addEventListener("click", getPosts);
+  document.getElementById("getPostsID").addEventListener("click", getPostByID);
+  document.getElementById("returnMap").addEventListener("click", returnMap);
 };
 
 /*
@@ -43,8 +44,9 @@ const addListItem = () => {
   } else {
     // else add and render the <li> to the <div id="list">
     document.getElementById("list").appendChild(li); // append <li> to <div id="list">
-    globalList.push(inputText);
+    // globalList.push(inputText);
     postList(inputText);
+    getPosts();
     clearInputText();
   }
 };
@@ -210,6 +212,13 @@ const setErrorHeader = text => {
   document.getElementById("errorH1").textContent = text;
 };
 
+/*
+ *   clears the error text in the html
+ */
+const clearErrorHeader = () => {
+  document.getElementById("errorH1").textContent = "";
+};
+
 // function to clear <li>'s from list
 const clearList = () => {
   const list = document.getElementById("list");
@@ -222,8 +231,8 @@ const clearList = () => {
 
 // 2xx responses are sucessful requests
 const checkStatus = res => {
-  if (res.status >= 200 && res.status < 300) {
-    return res;
+  if (res.ok) {
+    return res.json();
   } else {
     let err = new Error(res.status + " " + res.statusText);
     err.response = res;
@@ -231,9 +240,14 @@ const checkStatus = res => {
   }
 };
 
+const returnMap = () => {
+    console.log(globalList);
+}
+
 // get's all todo li from the api
-const getAPI = () => {
+const getPosts = () => {
   clearList(); // clears out list before calling get
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes/", {
     method: "GET" // WIP: send ID in body to return all todo items that belong to user
   })
@@ -241,6 +255,7 @@ const getAPI = () => {
     .then(data => {
       for (let i = 0; i < data.length; i++) {
         addListItemFromJSON(data[i].todo); // adds all todo list from the server to the client
+        globalList[data[i].id] = data[i].todo;
       }
     })
     .catch(error => {
@@ -249,8 +264,9 @@ const getAPI = () => {
 };
 
 // get's all todo li from the api
-const getList = () => {
+const getPostByID = () => {
   clearList(); // clears out list before calling get
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes/0", {
     method: "GET" // WIP: send ID in body to return all todo items that belong to user
   })
@@ -267,6 +283,7 @@ const getList = () => {
 
 // post to the list, used when add is clicked
 const postList = text => {
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes", {
     method: "POST",
     headers: {
@@ -286,6 +303,7 @@ const postList = text => {
 
 // updates specific li ID, called when saved is pressed
 const updateListItem = text => {
+  clearErrorHeader();
   const objects = JSON.stringify({ todo: text });
 
   fetch("http://localhost:5000/api/routes/0", {
@@ -306,6 +324,7 @@ const updateListItem = text => {
 };
 
 const deleteListItem = () => {
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes/0", {
     method: "DELETE",
     headers: {
