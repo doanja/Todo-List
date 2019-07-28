@@ -149,7 +149,7 @@ const createChngBtn = (element, text) => {
       createP(element, newInput.value); // renders the <p> with text from <input>
       newInput.remove(); // remove <input> from <li>
       button.textContent = "edit"; // change <button> text
-      updateListItem(newInput.value);
+      updateListItem("0", newInput.value);
       isEdit = false;
     }
   };
@@ -248,7 +248,7 @@ const returnMap = () => {
 const getPosts = () => {
   clearList(); // clears out list before calling get
   clearErrorHeader();
-  fetch("http://localhost:5000/api/routes/", {
+  fetch('http://localhost:5000/api/routes/', {
     method: "GET" // WIP: send ID in body to return all todo items that belong to user
   })
     .then(checkStatus)
@@ -284,7 +284,7 @@ const getPostByID = () => {
 // post to the list, used when add is clicked
 const postList = text => {
   clearErrorHeader();
-  fetch("http://localhost:5000/api/routes", {
+  fetch('http://localhost:5000/api/routes/', {
     method: "POST",
     headers: {
       "Content-type": "application/json"
@@ -302,11 +302,15 @@ const postList = text => {
 };
 
 // updates specific li ID, called when saved is pressed
-const updateListItem = text => {
+const updateListItem = (id, text) => {
   clearErrorHeader();
-  const objects = JSON.stringify({ todo: text });
+  const objects = JSON.stringify(
+    { 
+      id: id,
+      todo: text 
+    });
 
-  fetch("http://localhost:5000/api/routes/0", {
+  fetch('http://localhost:5000/api/routes/', {
     /* TODO: */
     method: "PUT",
     headers: {

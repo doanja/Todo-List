@@ -50,9 +50,9 @@ router.post("/", (req, res) => {
 });
 
 // Route: Update Single List Item
-router.put("/:id", (req, res) => {
+router.put("/", (req, res) => {
   // returns true or false if the ID is found in the database
-  const target = database.some(item => item.id === req.params.id);
+  const target = database.some(item => item.id === req.body.id);
 
   // if an ID exists in the database
   if (target) {
@@ -61,7 +61,7 @@ router.put("/:id", (req, res) => {
     /* when using a real database, this will be different */
     database.forEach(item => {
       // search the database
-      if (item.id === req.params.id) {
+      if (item.id === req.body.id) {
         // if the ID matches one in the database, update the fields:
         // item.ownerID = updItem.ownerID ? updItem.ownerID : item.ownerID;
         // item.age = updItem.age ? updItem.age : item.age;
