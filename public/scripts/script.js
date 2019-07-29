@@ -51,12 +51,17 @@ const addListItem = () => {
   }
 };
 
-// function used to render list and buttons from DB
+/* 
+*   @text, the text of the todo item
+*   @id, the id of of the item stored in data-id
+*   function used to render list and buttons from DB
+*/
 const addListItemFromJSON = (text, data_id) => {
   const inputText = truncateText(text, MAX_INPUT_LENGTH); // grabs input text
   const li = createListItem(); // creates <li> element
+  li.setAttribute("data-id", data_id);
   createDelBtn(li); // renders <button> used to delete <li>
-  createChngBtn(li, inputText, data_id); // renders <button> used to modify <p>
+  createChngBtn(li, inputText); // renders <button> used to modify <p>
 
   document.getElementById("list").appendChild(li); // append <li> to <div id="list">
 };
@@ -93,7 +98,7 @@ const createDelBtn = element => {
   button.onclick = function() {
     const div = this.parentElement; // <li> is the parent
     div.style.display = "none"; // hides <li>
-    deleteListItem();
+    deleteListItem(element.getAttribute("data-id"));
   };
 };
 
@@ -104,10 +109,9 @@ const createDelBtn = element => {
  *   clicking <p> will create an <input> field and
  *   remove this element and displays the ok button.
  */
-const createP = (element, text, data_id) => {
+const createP = (element, text) => {
   const p = document.createElement("p"); // creates <p>
   p.textContent = text; // sets the text content
-  p.setAttribute("data-id", data_id);
   element.appendChild(p); // append it to the parent element
 };
 
@@ -130,12 +134,12 @@ const createInput = (element, text) => {
  *   clicking the button will hide this <button>,
  *   the <input>, and renders <p>
  */
-const createChngBtn = (element, text, data_id) => {
+const createChngBtn = (element, text) => {
   const button = document.createElement("button"); // create <button>
   button.textContent = "edit"; // sets the text content
   button.className = "float-right btn btn-secondary";
   element.appendChild(button); // append it to the parent element
-  createP(element, text, data_id); // creates and puts text into <p>
+  createP(element, text); // creates and puts text into <p>
   let isEdit = false; // handles what state the <button> is in
 
   button.onclick = function() {
@@ -146,11 +150,12 @@ const createChngBtn = (element, text, data_id) => {
       button.textContent = "save"; // change <button> text
       isEdit = true;
     } else if (isEdit === true) {
-      const newInput = element.querySelector("input"); // search for <input> inside <li>
-      createP(element, newInput.value, data_id); // renders the <p> with text from <input>
-      newInput.remove(); // remove <input> from <li>
+      const inputText = element.querySelector("input"); // search for <input> inside <li>
+      inputText.value = " " ? " " : inputText.value; // checks to see if anything was inputted into input
+      createP(element, inputText.value); // renders the <p> with text from <input>
+      inputText.remove(); // remove <input> from <li>
       button.textContent = "edit"; // change <button> text
-      updateListItem(data_id, newInput.value);
+      updateListItem(element.getAttribute("data-id"), inputText.value);
       isEdit = false;
     }
   };
@@ -242,18 +247,18 @@ const checkStatus = res => {
 };
 
 const returnMap = () => {
-    console.log(globalList);
-}
+  console.log(globalList);
+};
 
 const getParentDataAtt = () => {
-  return this.parentNode.getAttribute("data-id");
-}
+  return node.parentNode;
+};
 
 // get's all todo li from the api
 const getPosts = () => {
   clearList(); // clears out list before calling get
   clearErrorHeader();
-  fetch('http://localhost:5000/api/routes/', {
+  fetch("http://localhost:5000/api/routes/", {
     method: "GET" // WIP: send ID in body to return all todo items that belong to user
   })
     .then(checkStatus)
@@ -288,10 +293,13 @@ const getPostByID = () => {
     });
 };
 
-// post to the list, used when add is clicked
+/*
+* @text, the text of the todo item
+* When add is clicked, creates a new entry in the database
+*/ 
 const postList = text => {
   clearErrorHeader();
-  fetch('http://localhost:5000/api/routes/', {
+  fetch("http://localhost:5000/api/routes/", {
     method: "POST",
     headers: {
       "Content-type": "application/json"
@@ -308,16 +316,19 @@ const postList = text => {
     });
 };
 
-// updates specific li ID, called when saved is pressed
+/*
+* @id, the id of the todo item from the database
+* @text, the text of the todo item from the database
+* Updates specific li ID, called when saved is pressed
+*/
 const updateListItem = (id, text) => {
   clearErrorHeader();
-  const objects = JSON.stringify(
-    { 
-      id: id,
-      todo: text 
-    });
+  const objects = JSON.stringify({
+    id: id,
+    todo: text
+  });
 
-  fetch('http://localhost:5000/api/routes/', {
+  fetch("http://localhost:5000/api/routes/", {
     /* TODO: */
     method: "PUT",
     headers: {
@@ -334,13 +345,14 @@ const updateListItem = (id, text) => {
     });
 };
 
-const deleteListItem = () => {
+const deleteListItem = (id) => {
   clearErrorHeader();
-  fetch("http://localhost:5000/api/routes/0", {
+  fetch("http://localhost:5000/api/routes/", {
     method: "DELETE",
     headers: {
       "Content-type": "application/json"
-    }
+    },
+    body: JSON.stringify({ id: id })
   })
     .then(checkStatus)
     .then(res => {

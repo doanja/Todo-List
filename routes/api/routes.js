@@ -73,13 +73,13 @@ router.put("/", (req, res) => {
     });
   } else {
     // status 404 = bad request
-    res.status(404).json({ msg: `No item with the id of ${req.params.id}` });
+    res.status(404).json({ msg: `No item with the id of ${req.body.id}` });
   }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/", (req, res) => {
   // returns true or false if the ID is found in the database
-  const target = database.some(item => item.id === req.params.id);
+  const target = database.some(item => item.id === req.body.id);
 
   // if an ID exists in the database
   if (target) {
@@ -89,13 +89,13 @@ router.delete("/:id", (req, res) => {
     // return all list items without the ID (req.param.id)
     res.json({
       msg: "Member deleted",
-      database: database.filter(item => item.id !== req.params.id)
+      database: database.filter(item => item.id !== req.body.id)
 
       /* WIP: need logic to delete from database */
     });
   } else {
     // status 404 = bad request
-    res.status(404).json({ msg: `No item with the id of ${req.params.id}` });
+    res.status(404).json({ msg: `No item with the id of ${req.body.id}` });
   }
 });
 
