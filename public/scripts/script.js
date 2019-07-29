@@ -52,11 +52,11 @@ const addListItem = () => {
 };
 
 // function used to render list and buttons from DB
-const addListItemFromJSON = text => {
+const addListItemFromJSON = (text, data_id) => {
   const inputText = truncateText(text, MAX_INPUT_LENGTH); // grabs input text
   const li = createListItem(); // creates <li> element
   createDelBtn(li); // renders <button> used to delete <li>
-  createChngBtn(li, inputText); // renders <button> used to modify <p>
+  createChngBtn(li, inputText, data_id); // renders <button> used to modify <p>
 
   document.getElementById("list").appendChild(li); // append <li> to <div id="list">
 };
@@ -104,9 +104,10 @@ const createDelBtn = element => {
  *   clicking <p> will create an <input> field and
  *   remove this element and displays the ok button.
  */
-const createP = (element, text) => {
+const createP = (element, text, data_id) => {
   const p = document.createElement("p"); // creates <p>
   p.textContent = text; // sets the text content
+  p.setAttribute("data-id", data_id);
   element.appendChild(p); // append it to the parent element
 };
 
@@ -129,12 +130,12 @@ const createInput = (element, text) => {
  *   clicking the button will hide this <button>,
  *   the <input>, and renders <p>
  */
-const createChngBtn = (element, text) => {
+const createChngBtn = (element, text, data_id) => {
   const button = document.createElement("button"); // create <button>
   button.textContent = "edit"; // sets the text content
   button.className = "float-right btn btn-secondary";
   element.appendChild(button); // append it to the parent element
-  createP(element, text); // creates and puts text into <p>
+  createP(element, text, data_id); // creates and puts text into <p>
   let isEdit = false; // handles what state the <button> is in
 
   button.onclick = function() {
@@ -146,10 +147,10 @@ const createChngBtn = (element, text) => {
       isEdit = true;
     } else if (isEdit === true) {
       const newInput = element.querySelector("input"); // search for <input> inside <li>
-      createP(element, newInput.value); // renders the <p> with text from <input>
+      createP(element, newInput.value, data_id); // renders the <p> with text from <input>
       newInput.remove(); // remove <input> from <li>
       button.textContent = "edit"; // change <button> text
-      updateListItem("0", newInput.value);
+      updateListItem(data_id, newInput.value);
       isEdit = false;
     }
   };
@@ -244,6 +245,10 @@ const returnMap = () => {
     console.log(globalList);
 }
 
+const getParentDataAtt = () => {
+  return this.parentNode.getAttribute("data-id");
+}
+
 // get's all todo li from the api
 const getPosts = () => {
   clearList(); // clears out list before calling get
@@ -253,9 +258,11 @@ const getPosts = () => {
   })
     .then(checkStatus)
     .then(data => {
+      // loop through each item in the database
       for (let i = 0; i < data.length; i++) {
-        addListItemFromJSON(data[i].todo); // adds all todo list from the server to the client
-        globalList[data[i].id] = data[i].todo;
+        // renders the list items, and stores the ID in a data attribute
+        addListItemFromJSON(data[i].todo, data[i].id);
+        globalList[i] = data[i].todo; // populate client side list of todo items
       }
     })
     .catch(error => {
