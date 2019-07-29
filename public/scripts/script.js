@@ -19,9 +19,9 @@ const attachClearBtnListener = () => {
 window.onload = () => {
   attachAddBtnListener();
   attachClearBtnListener();
-  // getPostByID();
+  getPosts();
   document.getElementById("getPosts").addEventListener("click", getPosts);
-  document.getElementById("getPostsID").addEventListener("click", getPostByID);
+  // document.getElementById("getPostsID").addEventListener("click", getPostByID);
   document.getElementById("returnMap").addEventListener("click", returnMap);
 };
 
@@ -44,26 +44,10 @@ const addListItem = () => {
   } else {
     // else add and render the <li> to the <div id="list">
     document.getElementById("list").appendChild(li); // append <li> to <div id="list">
-    // globalList.push(inputText);
     postList(inputText);
     getPosts();
     clearInputText();
   }
-};
-
-/* 
-*   @text, the text of the todo item
-*   @id, the id of of the item stored in data-id
-*   function used to render list and buttons from DB
-*/
-const addListItemFromJSON = (text, data_id) => {
-  const inputText = truncateText(text, MAX_INPUT_LENGTH); // grabs input text
-  const li = createListItem(); // creates <li> element
-  li.setAttribute("data-id", data_id);
-  createDelBtn(li); // renders <button> used to delete <li>
-  createChngBtn(li, inputText); // renders <button> used to modify <p>
-
-  document.getElementById("list").appendChild(li); // append <li> to <div id="list">
 };
 
 // gets input
@@ -151,12 +135,16 @@ const createChngBtn = (element, text) => {
       isEdit = true;
     } else if (isEdit === true) {
       const inputText = element.querySelector("input"); // search for <input> inside <li>
-      inputText.value = " " ? " " : inputText.value; // checks to see if anything was inputted into input
-      createP(element, inputText.value); // renders the <p> with text from <input>
-      inputText.remove(); // remove <input> from <li>
-      button.textContent = "edit"; // change <button> text
-      updateListItem(element.getAttribute("data-id"), inputText.value);
-      isEdit = false;
+
+      if(inputText.value.length === 0){
+        alert('Enter text');
+      } else {
+        createP(element, inputText.value); // renders the <p> with text from <input>
+        inputText.remove(); // remove <input> from <li>
+        button.textContent = "edit"; // change <button> text
+        updateListItem(element.getAttribute("data-id"), inputText.value);
+        isEdit = false;
+      }
     }
   };
 };
@@ -225,17 +213,7 @@ const clearErrorHeader = () => {
   document.getElementById("errorH1").textContent = "";
 };
 
-// function to clear <li>'s from list
-const clearList = () => {
-  const list = document.getElementById("list");
-  const li = list.getElementsByTagName("li");
-
-  while (li.length > 0) {
-    list.removeChild(li[0]);
-  }
-};
-
-// 2xx responses are sucessful requests
+// function to handle error handling in HTTP requests
 const checkStatus = res => {
   if (res.ok) {
     return res.json();
@@ -246,12 +224,34 @@ const checkStatus = res => {
   }
 };
 
-const returnMap = () => {
-  console.log(globalList);
+// function to clear <li>'s from list
+const clearList = () => {
+  const list = document.getElementById("list");
+  const li = list.getElementsByTagName("li");
+
+  while (li.length > 0) {
+    list.removeChild(li[0]);
+  }
 };
 
-const getParentDataAtt = () => {
-  return node.parentNode;
+/*
+ *   @text, the text of the todo item
+ *   @id, the id of of the item stored in data-id
+ *   function used to render list and buttons from DB
+ */
+const addListItemFromJSON = (text, data_id) => {
+  const inputText = truncateText(text, MAX_INPUT_LENGTH); // grabs input text
+  const li = createListItem(); // creates <li> element
+  li.setAttribute("data-id", data_id);
+  createDelBtn(li); // renders <button> used to delete <li>
+  createChngBtn(li, inputText); // renders <button> used to modify <p>
+
+  document.getElementById("list").appendChild(li); // append <li> to <div id="list">
+};
+
+// test function to display contents of globalList
+const returnMap = () => {
+  console.log(globalList);
 };
 
 // get's all todo li from the api
@@ -262,12 +262,11 @@ const getPosts = () => {
     method: "GET" // WIP: send ID in body to return all todo items that belong to user
   })
     .then(checkStatus)
-    .then(data => {
-      // loop through each item in the database
-      for (let i = 0; i < data.length; i++) {
-        // renders the list items, and stores the ID in a data attribute
-        addListItemFromJSON(data[i].todo, data[i].id);
-        globalList[i] = data[i].todo; // populate client side list of todo items
+    .then(res => {
+      // loop through each response
+      for (let i = 0; i < res.length; i++) {
+        addListItemFromJSON(res[i].todo, res[i].id); // renders the list items, and stores the ID in a data attribute
+        globalList[i] = res[i].todo; // populate client side list of todo items
       }
     })
     .catch(error => {
@@ -276,27 +275,28 @@ const getPosts = () => {
 };
 
 // get's all todo li from the api
-const getPostByID = () => {
-  clearList(); // clears out list before calling get
-  clearErrorHeader();
-  fetch("http://localhost:5000/api/routes/0", {
-    method: "GET" // WIP: send ID in body to return all todo items that belong to user
-  })
-    .then(checkStatus)
-    .then(res => {
-      for (let i = 0; i < res.length; i++) {
-        addListItemFromJSON(res[i].todo);
-      }
-    })
-    .catch(error => {
-      setErrorHeader(`${error}`);
-    });
-};
+// const getPostByID = () => {
+//   clearList(); // clears out list before calling get
+//   clearErrorHeader();
+//   fetch("http://localhost:5000/api/routes/0", {
+//     method: "GET" // WIP: send ID in body to return all todo items that belong to user
+//   })
+//     .then(checkStatus)
+//     .then(res => {
+//       for (let i = 0; i < res.length; i++) {
+//         addListItemFromJSON(res[i].todo);
+//       }
+//     })
+//     .catch(error => {
+//       setErrorHeader(`${error}`);
+//     });
+// };
 
 /*
-* @text, the text of the todo item
-* When add is clicked, creates a new entry in the database
-*/ 
+ * @text, the text of the todo item
+ * When add is clicked, creates a new entry in the database
+ */
+
 const postList = text => {
   clearErrorHeader();
   fetch("http://localhost:5000/api/routes/", {
@@ -309,7 +309,7 @@ const postList = text => {
   })
     .then(checkStatus)
     .then(res => {
-      console.log("Request success from postList: ", res);
+      console.log("Post request success: ", res);
     })
     .catch(error => {
       setErrorHeader(`${error}`);
@@ -317,10 +317,10 @@ const postList = text => {
 };
 
 /*
-* @id, the id of the todo item from the database
-* @text, the text of the todo item from the database
-* Updates specific li ID, called when saved is pressed
-*/
+ * @id, the id of the todo item from the database
+ * @text, the text of the todo item from the database
+ * Updates specific li ID, called when saved is pressed
+ */
 const updateListItem = (id, text) => {
   clearErrorHeader();
   const objects = JSON.stringify({
@@ -338,26 +338,26 @@ const updateListItem = (id, text) => {
   })
     .then(checkStatus)
     .then(res => {
-      console.log("Request success: ", res);
+      console.log("Put request success: ", res);
     })
     .catch(error => {
       setErrorHeader(`${error}`);
     });
 };
 
-const deleteListItem = (id) => {
+const deleteListItem = id => {
   clearErrorHeader();
   fetch("http://localhost:5000/api/routes/", {
     method: "DELETE",
     headers: {
       "Content-type": "application/json"
     },
-    body: JSON.stringify({ id: id })
+    body: JSON.stringify({ id: id }) // sends the ID of the todo item to the server
   })
     .then(checkStatus)
     .then(res => {
       /* WIP: why does this display when theres invalid URL */
-      console.log("Request success: ", res);
+      console.log("Delete request success: ", res);
     })
     .catch(error => {
       setErrorHeader(`${error}`);
