@@ -82,7 +82,7 @@ const createDelBtn = element => {
   button.onclick = function() {
     const div = this.parentElement; // <li> is the parent
     div.style.display = "none"; // hides <li>
-    deleteListItem(element.getAttribute("data-id"));
+    deleteListItem(element.getAttribute("data-id")); // send HTTP delete request to server
   };
 };
 
@@ -265,7 +265,7 @@ const getPosts = () => {
     .then(res => {
       // loop through each response
       for (let i = 0; i < res.length; i++) {
-        addListItemFromJSON(res[i].todo, res[i].id); // renders the list items, and stores the ID in a data attribute
+        addListItemFromJSON(res[i].todo, res[i]._id); // renders the list items, and stores the ID in a data attribute
         globalList[i] = res[i].todo; // populate client side list of todo items
       }
     })
