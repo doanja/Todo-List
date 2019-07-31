@@ -323,10 +323,6 @@ const postList = text => {
  */
 const updateListItem = (id, text) => {
   clearErrorHeader();
-  const objects = JSON.stringify({
-    id: id,
-    todo: text
-  });
 
   fetch("http://localhost:5000/api/routes/", {
     /* TODO: */
@@ -334,7 +330,10 @@ const updateListItem = (id, text) => {
     headers: {
       "Content-type": "application/json"
     },
-    body: objects
+    body: JSON.stringify({
+      id: id,
+      todo: text
+    })
   })
     .then(checkStatus)
     .then(res => {

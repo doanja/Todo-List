@@ -70,30 +70,20 @@ router.post("/", (req, res) => {
 
 // Route: Update Single List Item
 router.put("/", (req, res) => {
-  // returns true or false if the ID is found in the database
-  const target = database.some(item => item.id === req.body.id);
-
-  // if an ID exists in the database
-  if (target) {
-    const updItem = req.body; // reference to the request's body
-
-    /* when using a real database, this will be different */
-    database.forEach(item => {
-      // search the database
-      if (item.id === req.body.id) {
-        // if the ID matches one in the database, update the fields:
-        // item.ownerID = updItem.ownerID ? updItem.ownerID : item.ownerID;
-        // item.age = updItem.age ? updItem.age : item.age;
-        item.todo = updItem.todo ? updItem.todo : item.todo;
-        // item.name = updItem.name ? updItem.name : item.name;
-
-        res.json({ msg: "Item is updated", item });
-      }
+  const id = req.body.id;
+  const todo = req.body.todo;
+  Todo.updateOne({ _id: id }, { todo: todo})
+    .exec()
+    .then(data => {
+      console.log(data);
+      res.status(200).json(data);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      })
     });
-  } else {
-    // status 404 = bad request
-    res.status(404).json({ msg: `No item with the id of ${req.body.id}` });
-  }
 });
 
 router.delete("/", (req, res) => {
