@@ -1,12 +1,12 @@
 const express = require("express");
-const uuid = require("uuid");
-const router = express.Router();
-const database = require("../../Database");
 const mongoose = require("mongoose");
 const Todo = require("../../models/todo");
+const router = express.Router();
 
 // Route: Get All List Items
 router.get("/", (req, res) => {
+
+  // finds all todo items from the collection
   Todo.find()
     .exec()
     .then(data => {
@@ -19,20 +19,16 @@ router.get("/", (req, res) => {
     });
 });
 
-// Route: Get list items with ownerID that matches user's ID
-router.get("/:todo", (req, res) => {
-  const id = req.param.todo;
+// Route: get todo items with the ID
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
 
+  // find a todo item given the _id
   Todo.findById(id)
     .exec()
     .then(data => {
       console.log(data);
-      // if id is valid, but no entry is found
-      if (data) {
-        res.status(200).json(data);
-      } else {
-        res.status(404).json({ msg: "no valid entry found for provided ID" });
-      }
+      res.status(200).json(data);
     })
     .catch(err => {
       console.log(err);
@@ -53,26 +49,25 @@ router.post("/", (req, res) => {
     .save() // stores in db
     .then(data => {
       console.log(data);
-      // when post is successful
       res.status(201).json({
-        msg: "POST request SUCCESS creating a todo",
+        msg: "POST request SUCCESS creating a todo item",
         createdTodo: data
       });
     })
     .catch(err => {
       console.log(err);
-      // when post fails
-      res.status(500).json({
-        error: err
-      });
+      res.status(500).json({ error: err });
     });
 });
 
-// Route: Update Single List Item
+// Route: updates a single todo item
 router.put("/", (req, res) => {
+  // store the request _id and todo
   const id = req.body.id;
   const todo = req.body.todo;
-  Todo.updateOne({ _id: id }, { todo: todo})
+
+  // updates the todo item using the _id and todo from the request
+  Todo.updateOne({ _id: id }, { todo: todo })
     .exec()
     .then(data => {
       console.log(data);
@@ -80,14 +75,16 @@ router.put("/", (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({
-        error: err
-      })
+      res.status(500).json({ error: err });
     });
 });
 
+// Route: deletes a single todo item
 router.delete("/", (req, res) => {
+  // store the request _id
   const id = req.body.id;
+
+  // deletes the todo item using the _id from the request
   Todo.deleteOne({ _id: id })
     .exec()
     .then(data => {
@@ -96,9 +93,7 @@ router.delete("/", (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(500).json({
-        error: err
-      })
+      res.status(500).json({ error: err });
     });
 });
 
