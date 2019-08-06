@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 const Todo = require("../../models/todo");
 const router = express.Router();
 
+// router.get('/dashboard', (req, res) => res.render('dashboard'));
+
 // Route: Get All List Items
-router.get("/", (req, res) => {
+router.get("/dashboard", (req, res) => {
 
   // finds all todo items from the collection
   Todo.find()
@@ -20,7 +22,7 @@ router.get("/", (req, res) => {
 });
 
 // Route: get todo items with the ID
-router.get("/:id", (req, res) => {
+router.get("/dashboard:id", (req, res) => {
   const id = req.params.id;
 
   // find a todo item given the _id
@@ -37,7 +39,7 @@ router.get("/:id", (req, res) => {
 });
 
 // Route: creates a todo item
-router.post("/", (req, res) => {
+router.post("/dashboard", (req, res) => {
   // creates a new Todo object in the database
   const todo = new Todo({
     _id: new mongoose.Types.ObjectId(),
@@ -61,7 +63,7 @@ router.post("/", (req, res) => {
 });
 
 // Route: updates a single todo item
-router.put("/", (req, res) => {
+router.put("/dashboard", (req, res) => {
   // store the request _id and todo
   const id = req.body.id;
   const todo = req.body.todo;
@@ -80,7 +82,7 @@ router.put("/", (req, res) => {
 });
 
 // Route: deletes a single todo item
-router.delete("/", (req, res) => {
+router.delete("/dashboard", (req, res) => {
   // store the request _id
   const id = req.body.id;
 
