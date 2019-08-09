@@ -7,10 +7,13 @@ const mongoose = require("mongoose");
 const Todo = require("../../models/todo");
 
 <<<<<<< HEAD:routes/api/dashboard.js
+<<<<<<< HEAD:routes/api/dashboard.js
 
 // dashboard page
 // router.get('/', (req, res) => res.render('dashboard'));
 
+=======
+>>>>>>> parent of 4593347... adding pasport auth:routes/api/routes.js
 =======
 >>>>>>> parent of 4593347... adding pasport auth:routes/api/routes.js
 // Route: Get All List Items
