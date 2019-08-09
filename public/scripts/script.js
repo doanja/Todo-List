@@ -23,7 +23,6 @@ window.onload = () => {
   document.getElementById("getPosts").addEventListener("click", getPosts);
   document.getElementById("getPostsID").addEventListener("click", getPostByID);
   document.getElementById("returnMap").addEventListener("click", returnMap);
-
 };
 
 /*
@@ -46,7 +45,6 @@ const addListItem = () => {
     document.getElementById("list").appendChild(li); // append <li> to <div id="list">
     addTodoItem(inputText); // adds todo item to the database
     getPosts(); // gets all todo items from the database
-    clearInputText();
   }
 };
 
@@ -136,7 +134,7 @@ const createChngBtn = (element, text) => {
     } else if (isEdit === true) {
       const inputText = element.querySelector("input"); // search for <input> inside <li>
       if(inputText.value.length === 0){ // if nothing was entered in input
-        alert('enter text...');
+        alert('Enter text');
       } else {
         createP(element, inputText.value); // renders the <p> with text from <input>
         inputText.remove(); // remove <input> from <li>
@@ -200,8 +198,15 @@ const truncateText = (text, maxLength) => {
  *   @text, the text to be displayed in html
  *   sets the error text in the html
  */
-const setErrorMsg = (text) => {
-  alert(text);
+const setErrorHeader = text => {
+  document.getElementById("errorH1").textContent = text;
+};
+
+/*
+ *   clears the error text in the html
+ */
+const clearErrorHeader = () => {
+  document.getElementById("errorH1").textContent = "";
 };
 
 // function to handle error handling in HTTP requests
@@ -248,7 +253,7 @@ const returnMap = () => {
 // gets all todo items from the database
 const getPosts = () => {
   clearList();
-  
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes/", {
     method: "GET"
   })
@@ -261,14 +266,14 @@ const getPosts = () => {
       }
     })
     .catch(error => {
-      setErrorMsg(`${error}`);
+      setErrorHeader(`${error}`);
     });
 };
 
 // gets all todo items with a specific ID
 const getPostByID = () => {
   clearList();
-  
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes/5d42ed9f92379f6324829e4d", {
     method: "GET"
   })
@@ -280,7 +285,7 @@ const getPostByID = () => {
       // }
     })
     .catch(error => {
-      setErrorMsg(`${error}`);
+      setErrorHeader(`${error}`);
     });
 };
 
@@ -289,7 +294,7 @@ const getPostByID = () => {
  * Create a new todo item in the database when 'add' is clicked
  */
 const addTodoItem = text => {
-  
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes/", {
     method: "POST",
     headers: {
@@ -302,7 +307,7 @@ const addTodoItem = text => {
       console.log("Post request success: ", res);
     })
     .catch(error => {
-      setErrorMsg(`${error}`);
+      setErrorHeader(`${error}`);
     });
 };
 
@@ -312,7 +317,7 @@ const addTodoItem = text => {
  * Updates a todo item with given ID when saved' is clicked
  */
 const updateTodoItem = (id, text) => {
-  
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes/", {
     method: "PUT",
     headers: {
@@ -328,7 +333,7 @@ const updateTodoItem = (id, text) => {
       console.log("Update successful: ", res);
     })
     .catch(error => {
-      setErrorMsg(`${error}`);
+      setErrorHeader(`${error}`);
     });
 };
 
@@ -337,7 +342,7 @@ const updateTodoItem = (id, text) => {
  * Deletes todo item with matching ID when 'delete' is clicked
  */
 const deleteTodoItem = id => {
-  
+  clearErrorHeader();
   fetch("http://localhost:5000/api/routes/", {
     method: "DELETE",
     headers: {
@@ -350,6 +355,6 @@ const deleteTodoItem = id => {
       console.log("Delete successful: ", res);
     })
     .catch(error => {
-      setErrorMsg(`${error}`);
+      setErrorHeader(`${error}`);
     });
 };
