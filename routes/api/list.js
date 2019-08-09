@@ -1,27 +1,8 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const Todo = require("../../models/todo");
 const router = express.Router();
 
-const mongoose = require("mongoose");
-
-// load todo model
-const Todo = require("../../models/todo");
-
-<<<<<<< HEAD:routes/api/dashboard.js
-<<<<<<< HEAD:routes/api/dashboard.js
-<<<<<<< HEAD:routes/api/dashboard.js
-<<<<<<< HEAD:routes/api/dashboard.js
-
-// dashboard page
-// router.get('/', (req, res) => res.render('dashboard'));
-
-=======
->>>>>>> parent of 4593347... adding pasport auth:routes/api/routes.js
-=======
->>>>>>> parent of 4593347... adding pasport auth:routes/api/routes.js
-=======
->>>>>>> parent of 4593347... adding pasport auth:routes/api/routes.js
-=======
->>>>>>> parent of 4593347... adding pasport auth:routes/api/routes.js
 // Route: Get All List Items
 router.get("/", (req, res) => {
 
@@ -80,7 +61,7 @@ router.post("/", (req, res) => {
 });
 
 // Route: updates a single todo item
-router.put("/", (req, res) => {
+router.patch("/", (req, res) => {
   // store the request _id and todo
   const id = req.body.id;
   const todo = req.body.todo;
