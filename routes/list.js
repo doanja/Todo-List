@@ -1,12 +1,12 @@
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
 const Todo = require("../models/todo");
 const router = express.Router();
 
 // Route: Get All List Items
 router.get("/list", (req, res) => {
-
-  // finds all todo items from the collection
+  //finds all todo items from the collection
   Todo.find()
     .exec()
     .then(data => {

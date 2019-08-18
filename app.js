@@ -17,7 +17,7 @@ app.use(express.json()); // handles json data for post requests
 app.use(express.urlencoded({ extended: false })); // handles url encoded data
 
 // sets public as the static folder
-app.use(express.static(path.join(__dirname, "public"))); // __dirname = current directory
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 // router to the API
 app.use("/", require("./routes/list"));
