@@ -245,7 +245,7 @@ const returnMap = () => {
   console.log(globalList);
 };
 
-const url = 'http://localhost:5000/api/list/'
+const url = 'http://localhost:5000/list/'
 
 // gets all todo items from the database
 const getPosts = () => {
@@ -271,7 +271,7 @@ const getPosts = () => {
 const getPostByID = () => {
   clearList();
   
-  fetch("http://localhost:5000/api/list/5d42ed9f92379f6324829e4d", {
+  fetch("http://localhost:5000/list/5d42ed9f92379f6324829e4d", {
     method: "GET"
   })
     .then(checkStatus)
