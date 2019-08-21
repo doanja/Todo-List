@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path"); // for file paths
 const mongoose = require("mongoose"); // mongoDB
 const db = require("./config/keys").MongoURI; // database config
+const passportSetup = require('./config/passport-setup');
 const app = express();
 
 const PORT = process.env.PORT || 5000;
