@@ -1,15 +1,17 @@
 const express = require("express");
 const path = require("path"); // for file paths
 const mongoose = require("mongoose"); // mongoDB
-const db = require("./config/keys").MongoURI; // database config
+const key = require("./config/keys"); // database config
 const passportSetup = require('./config/passport-setup');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 
 // connect to database
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(key.MongoURI, { useNewUrlParser: true })
   .then(() => console.log("MongoDB connected..."))
   .catch(err => console.log(err));
 
@@ -20,11 +22,24 @@ app.use(express.urlencoded({ extended: false })); // handles url encoded data
 // set up view engine
 app.set('view engine', 'ejs');
 
+// encrypts cookies that last for 1 day, sends it to the browser when user logs in
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000, // day in miliseconds
+  keys: [key.session.cookieKey] // encrypts cookie when sent to the browser
+}));
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // home route
 app.use('/', require('./routes/index'));
 
 // auth route
 app.use('/auth', require('./routes/auth'));
+
+// profile route (change this to list later)
+app.use('/profile', require('./routes/profile'));
 
 // // sets public as the static folder
 // app.use('/', express.static(path.join(__dirname, 'public')));

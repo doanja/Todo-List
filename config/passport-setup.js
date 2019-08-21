@@ -3,19 +3,19 @@ const GoogleStrat = require('passport-google-oauth20');
 const keys = require('./keys');
 const User = require('../models/user');
 
-passport.serializeUser((user, done) =>{
+passport.serializeUser((user, done) => {
     done(null, user.id);
-})
+});
 
 passport.deserializeUser((id, done) => {
     User.findById(id)
-     .then((data) => {
-        done(null, user.id);
-     })
-    .catch((err) => {
-        console.log('error deserializing user:', err)
-    })
-})
+        .then((data) => {
+            done(null, data);
+        })
+        .catch((err) => {
+            console.log('error deserializing user:', err)
+        })
+});
 
 passport.use(
     new GoogleStrat({
@@ -48,7 +48,5 @@ passport.use(
             .catch(err => {
                 console.log('error occured finding user in the DB:', err);
             });
-
-
     })
-)
+);
