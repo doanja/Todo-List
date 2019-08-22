@@ -1,32 +1,34 @@
-const express = require("express");
-const path = require("path");
-const mongoose = require("mongoose");
-const Todo = require("../models/todo");
-const User = require("../models/user");
+const express = require('express');
+const path = require('path');
+const mongoose = require('mongoose');
+const Todo = require('../models/todo');
+// const User = require('../models/user');
 const router = express.Router();
 
 // middleware to check if user is logged in (ran before user is directed to their profile)
 const isLoggedIn = (req, res, next) => {
-  if(!req.user){ // if user is not logged in
-      res.redirect('/auth/login');
-  } else { // if user is logged in
-      console.log(req.user._id);
-      next();
+  if (!req.user) {
+    // if user is not logged in
+    res.redirect('/auth/login');
+  } else {
+    // if user is logged in
+    console.log(req.user._id);
+    next();
   }
 };
 
 // Route: Get All List Items
-router.get("/", isLoggedIn, (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
   //finds all todo items from the collection
 
   res.render('todo');
-  
+
   // Todo.find()
   //   .exec()
   //   .then(data => {
   //     console.log(data);
   //     res.status(200).json(data);
-      
+
   //   })
   //   .catch(err => {
   //     console.log(err);
@@ -35,11 +37,11 @@ router.get("/", isLoggedIn, (req, res) => {
 });
 
 // Route: get todo items with the ID
-router.get("/:userId", (req, res) => {
+router.get('/:userId', (req, res) => {
   const id = req.params.userId;
-  
+
   // find a todo item given the _id
-  Todo.find({userId: id})
+  Todo.find({ userId: id })
     .exec()
     .then(data => {
       console.log(data);
@@ -52,7 +54,7 @@ router.get("/:userId", (req, res) => {
 });
 
 // Route: creates a todo item /* need to add code to attach user ID to todo */
-router.post("/", (req, res) => {
+router.post('/', (req, res) => {
   // creates a new Todo object in the database
   const todo = new Todo({
     _id: new mongoose.Types.ObjectId(),
@@ -66,7 +68,7 @@ router.post("/", (req, res) => {
     .then(data => {
       console.log(data);
       res.status(201).json({
-        msg: "POST request SUCCESS creating a todo item",
+        msg: 'POST request SUCCESS creating a todo item',
         createdTodo: data
       });
     })
@@ -77,7 +79,7 @@ router.post("/", (req, res) => {
 });
 
 // Route: updates a single todo item
-router.patch("/", (req, res) => {
+router.patch('/', (req, res) => {
   // store the request _id and todo
   const id = req.body.id;
   const todo = req.body.todo;
@@ -96,7 +98,7 @@ router.patch("/", (req, res) => {
 });
 
 // Route: deletes a single todo item
-router.delete("/", (req, res) => {
+router.delete('/', (req, res) => {
   // store the request _id
   const id = req.body.id;
 

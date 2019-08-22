@@ -1,2 +1,28 @@
-# Todo_List
-Simple todo list using html, css, js, exprses.js
+# To-Do-List App
+
+Simple todo list using the MERN stack with Google OAUT20.
+
+## Dependencies
+
+```
+cookie-session
+ejs
+exprss
+mongodb
+mongoose
+passport
+passport-google-oauth20
+```
+
+## Usage
+
+```
+npm install
+
+# configure your Google API key and MongoDB key in 'config/keys.js'
+
+# run with nodemon
+npm run dev
+
+# visit http://localhost:5000/ to view application
+```

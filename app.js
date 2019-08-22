@@ -1,7 +1,7 @@
-const express = require("express");
-const path = require("path"); // for file paths
-const mongoose = require("mongoose"); // mongoDB
-const key = require("./config/keys"); // database config
+const express = require('express');
+const path = require('path'); // for file paths
+const mongoose = require('mongoose'); // mongoDB
+const key = require('./config/keys'); // database config
 const passportSetup = require('./config/passport-setup');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 // connect to database
 mongoose
   .connect(key.MongoURI, { useNewUrlParser: true })
-  .then(() => console.log("MongoDB connected..."))
+  .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log(err));
 
 // body parser middleware
@@ -23,10 +23,12 @@ app.use(express.urlencoded({ extended: false })); // handles url encoded data
 app.set('view engine', 'ejs');
 
 // encrypts cookies that last for 1 day, sends it to the browser when user logs in
-app.use(cookieSession({
-  maxAge: 24 * 60 * 60 * 1000, // day in miliseconds
-  keys: [key.session.cookieKey] // encrypts cookie when sent to the browser
-}));
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000, // day in miliseconds
+    keys: [key.session.cookieKey] // encrypts cookie when sent to the browser
+  })
+);
 
 // initialize passport
 app.use(passport.initialize());
@@ -46,6 +48,6 @@ app.use('/profile', require('./routes/profile'));
 app.use(express.static('./public'));
 
 // // router to the API
-app.use("/list", require("./routes/list"));
+app.use('/list', require('./routes/list'));
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

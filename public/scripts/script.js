@@ -1,18 +1,16 @@
-const globalList = [];
-
 // character limit
 const MAX_INPUT_LENGTH = 80;
 
 // listens for add button click
 const attachAddBtnListener = () => {
-  const addBtn = document.getElementById("addButton");
-  addBtn.addEventListener("click", addListItem);
+  const addBtn = document.getElementById('addButton');
+  addBtn.addEventListener('click', addListItem);
 };
 
 // listens for clear button click
 const attachClearBtnListener = () => {
-  const clearBtn = document.getElementById("clearFilters");
-  clearBtn.addEventListener("click", clearFilters);
+  const clearBtn = document.getElementById('clearFilters');
+  clearBtn.addEventListener('click', clearFilters);
 };
 
 // executes these functions on page load
@@ -21,9 +19,7 @@ window.onload = () => {
   attachClearBtnListener();
   // getPosts();
   // document.getElementById("getPosts").addEventListener("click", getPosts);
-  document.getElementById("getPostsID").addEventListener("click", getPostByID);
-  document.getElementById("returnMap").addEventListener("click", returnMap);
-
+  document.getElementById('getPostsID').addEventListener('click', getPostByID);
 };
 
 /*
@@ -33,17 +29,17 @@ window.onload = () => {
  *   clears <input> after clicking ok
  */
 const addListItem = () => {
-  const inputText = truncateText(getInputText("inputTask"), MAX_INPUT_LENGTH); // grabs input text
+  const inputText = truncateText(getInputText('inputTask'), MAX_INPUT_LENGTH); // grabs input text
   const li = createListItem(); // creates <li> element
   createDelBtn(li); // renders <button> used to delete <li>
   createChngBtn(li, inputText); // renders <button> used to modify <p>
 
   // if nothing was inputted...
-  if (inputText === "") {
-    alert("Enter something...");
+  if (inputText === '') {
+    alert('Enter something...');
   } else {
     // else add and render the <li> to the <div id="list">
-    document.getElementById("list").appendChild(li); // append <li> to <div id="list">
+    document.getElementById('list').appendChild(li); // append <li> to <div id="list">
     addTodoItem(inputText); // adds todo item to the database
     // getPosts(); // gets all todo items from the database
     clearInputText();
@@ -57,13 +53,13 @@ const getInputText = element => {
 
 // clears input
 const clearInputText = () => {
-  document.getElementById("inputTask").value = "";
+  document.getElementById('inputTask').value = '';
 };
 
 // create <li>
 const createListItem = () => {
-  const li = document.createElement("li");
-  li.className = "list-group-item bg-light";
+  const li = document.createElement('li');
+  li.className = 'list-group-item bg-light';
   return li;
 };
 
@@ -73,16 +69,16 @@ const createListItem = () => {
  *   clicking the <button> will hide <li> from the list
  */
 const createDelBtn = element => {
-  const button = document.createElement("button"); // create <button>
-  button.textContent = "delete"; // button's text
-  button.className = "float-right btn btn-danger";
+  const button = document.createElement('button'); // create <button>
+  button.textContent = 'delete'; // button's text
+  button.className = 'float-right btn btn-danger';
   element.appendChild(button); // append it to the parent element
 
   // handles deconste functionality of the deconste button
   button.onclick = function() {
     const div = this.parentElement; // <li> is the parent
-    div.style.display = "none"; // hides <li>
-    deleteTodoItem(element.getAttribute("data-id")); // send HTTP delete request to server
+    div.style.display = 'none'; // hides <li>
+    deleteTodoItem(element.getAttribute('data-id')); // send HTTP delete request to server
   };
 };
 
@@ -94,7 +90,7 @@ const createDelBtn = element => {
  *   remove this element and displays the ok button.
  */
 const createP = (element, text) => {
-  const p = document.createElement("p"); // creates <p>
+  const p = document.createElement('p'); // creates <p>
   p.textContent = text; // sets the text content
   element.appendChild(p); // append it to the parent element
 };
@@ -105,7 +101,7 @@ const createP = (element, text) => {
  *   renders the <input> and removes <p>
  */
 const createInput = (element, text) => {
-  const input = document.createElement("input"); // creates <input>
+  const input = document.createElement('input'); // creates <input>
   input.placeholder = text; // sets placeholder text
   input.maxLength = MAX_INPUT_LENGTH; // limits input length
   element.appendChild(input); // append it to the parent element
@@ -119,29 +115,30 @@ const createInput = (element, text) => {
  *   the <input>, and renders <p>
  */
 const createChngBtn = (element, text) => {
-  const button = document.createElement("button"); // create <button>
-  button.textContent = "edit"; // sets the text content
-  button.className = "float-right btn btn-secondary";
+  const button = document.createElement('button'); // create <button>
+  button.textContent = 'edit'; // sets the text content
+  button.className = 'float-right btn btn-secondary';
   element.appendChild(button); // append it to the parent element
   createP(element, text); // creates and puts text into <p>
   let isEdit = false; // handles what state the <button> is in
 
   button.onclick = function() {
     if (isEdit === false) {
-      const currentP = element.querySelector("p"); // search for <p> inside <li>
+      const currentP = element.querySelector('p'); // search for <p> inside <li>
       createInput(element, currentP.textContent); // renders <input>
       currentP.remove(); // remove <p> from <li>
-      button.textContent = "save"; // change <button> text
+      button.textContent = 'save'; // change <button> text
       isEdit = true;
     } else if (isEdit === true) {
-      const inputText = element.querySelector("input"); // search for <input> inside <li>
-      if(inputText.value.length === 0){ // if nothing was entered in input
+      const inputText = element.querySelector('input'); // search for <input> inside <li>
+      if (inputText.value.length === 0) {
+        // if nothing was entered in input
         alert('enter text...');
       } else {
         createP(element, inputText.value); // renders the <p> with text from <input>
         inputText.remove(); // remove <input> from <li>
-        button.textContent = "edit"; // change <button> text
-        updateTodoItem(element.getAttribute("data-id"), inputText.value); // updates the todo item
+        button.textContent = 'edit'; // change <button> text
+        updateTodoItem(element.getAttribute('data-id'), inputText.value); // updates the todo item
         isEdit = false;
       }
     }
@@ -152,34 +149,34 @@ const createChngBtn = (element, text) => {
  * function to filter <li> (non-case sensitive)
  */
 const filterList = () => {
-  const inputText = getInputText("inputFilter"); // grabs input text
+  const inputText = getInputText('inputFilter'); // grabs input text
   const inputTextUpperCase = inputText.toUpperCase(); // changes input to upper case
-  const list = document.getElementById("list"); // gets our <div> list
-  const li = list.getElementsByTagName("li"); // grabs the <li>
+  const list = document.getElementById('list'); // gets our <div> list
+  const li = list.getElementsByTagName('li'); // grabs the <li>
   let p, txtValue;
 
   // loop through all <li>
   for (let i = 0; i < li.length; i++) {
-    p = li[i].querySelector("p"); // grabs first instance of <p> in <li>
+    p = li[i].querySelector('p'); // grabs first instance of <p> in <li>
     txtValue = p.textContent || p.innerText; // grabs text from <p>
     if (txtValue.toUpperCase().indexOf(inputTextUpperCase) > -1) {
       // finding txtValue or a substring of txtValue
-      li[i].style.display = ""; // display matching items
+      li[i].style.display = ''; // display matching items
     } else {
-      li[i].style.display = "none"; // hide non-matching items
+      li[i].style.display = 'none'; // hide non-matching items
     }
   }
 };
 
 // clear the filter input
 const clearFilters = () => {
-  document.getElementById("inputFilter").value = ""; // clears text inputFilter
-  const list = document.getElementById("list"); // gets our <div> list
-  const li = list.getElementsByTagName("li"); // grabs the <li>
+  document.getElementById('inputFilter').value = ''; // clears text inputFilter
+  const list = document.getElementById('list'); // gets our <div> list
+  const li = list.getElementsByTagName('li'); // grabs the <li>
 
   // loop through and display all <li>
   for (let i = 0; i < li.length; i++) {
-    li[i].style.display = "";
+    li[i].style.display = '';
   }
 };
 
@@ -200,7 +197,7 @@ const truncateText = (text, maxLength) => {
  *   @text, the text to be displayed in html
  *   sets the error text in the html
  */
-const setErrorMsg = (text) => {
+const setErrorMsg = text => {
   alert(text);
 };
 
@@ -209,7 +206,7 @@ const checkStatus = res => {
   if (res.ok) {
     return res.json();
   } else {
-    let err = new Error(res.status + " " + res.statusText);
+    let err = new Error(res.status + ' ' + res.statusText);
     err.response = res;
     throw err;
   }
@@ -217,8 +214,8 @@ const checkStatus = res => {
 
 // function to clear <li>'s from list
 const clearList = () => {
-  const list = document.getElementById("list");
-  const li = list.getElementsByTagName("li");
+  const list = document.getElementById('list');
+  const li = list.getElementsByTagName('li');
 
   while (li.length > 0) {
     list.removeChild(li[0]);
@@ -233,24 +230,19 @@ const clearList = () => {
 const addListeItemFromDB = (text, data_id) => {
   const inputText = truncateText(text, MAX_INPUT_LENGTH); // grabs input text
   const li = createListItem(); // creates <li> element
-  li.setAttribute("data-id", data_id);
+  li.setAttribute('data-id', data_id);
   createDelBtn(li); // renders <button> used to delete <li>
   createChngBtn(li, inputText); // renders <button> used to modify <p>
 
-  document.getElementById("list").appendChild(li); // append <li> to <div id="list">
+  document.getElementById('list').appendChild(li); // append <li> to <div id="list">
 };
 
-// test function to display contents of globalList
-const returnMap = () => {
-  console.log(globalList);
-};
-
-const url = 'http://localhost:5000/list/'
+const url = 'http://localhost:5000/list/';
 
 // // gets all todo items from the database
 // const getPosts = () => {
 //   clearList();
-  
+
 //   fetch(url, {
 //     method: "GET"
 //   })
@@ -270,9 +262,10 @@ const url = 'http://localhost:5000/list/'
 // gets all todo items with a specific ID
 const getPostByID = () => {
   clearList();
-  
-  fetch("http://localhost:5000/list/5d5d8b95134900399cdb01d5", { /* !! DYNAMICALLY GO TO USER'S TODO LIST !! */
-    method: "GET"
+
+  fetch('http://localhost:5000/list/5d5d8b95134900399cdb01d5', {
+    /* !! DYNAMICALLY GO TO USER'S TODO LIST !! */
+    method: 'GET'
   })
     .then(checkStatus)
     .then(res => {
@@ -291,17 +284,16 @@ const getPostByID = () => {
  * Create a new todo item in the database when 'add' is clicked
  */
 const addTodoItem = text => {
-  
   fetch(url, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-type": "application/json"
+      'Content-type': 'application/json'
     },
     body: JSON.stringify({ todo: text })
   })
     .then(checkStatus)
     .then(res => {
-      console.log("Post request success: ", res);
+      console.log('Post request success: ', res);
     })
     .catch(error => {
       setErrorMsg(`${error}`);
@@ -314,11 +306,10 @@ const addTodoItem = text => {
  * Updates a todo item with given ID when saved' is clicked
  */
 const updateTodoItem = (id, text) => {
-  
   fetch(url, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
-      "Content-type": "application/json"
+      'Content-type': 'application/json'
     },
     body: JSON.stringify({
       id: id,
@@ -327,7 +318,7 @@ const updateTodoItem = (id, text) => {
   })
     .then(checkStatus)
     .then(res => {
-      console.log("Update successful: ", res);
+      console.log('Update successful: ', res);
     })
     .catch(error => {
       setErrorMsg(`${error}`);
@@ -339,17 +330,16 @@ const updateTodoItem = (id, text) => {
  * Deletes todo item with matching ID when 'delete' is clicked
  */
 const deleteTodoItem = id => {
-  
   fetch(url, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      "Content-type": "application/json"
+      'Content-type': 'application/json'
     },
     body: JSON.stringify({ id: id })
   })
     .then(checkStatus)
     .then(res => {
-      console.log("Delete successful: ", res);
+      console.log('Delete successful: ', res);
     })
     .catch(error => {
       setErrorMsg(`${error}`);
