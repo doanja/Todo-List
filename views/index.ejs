@@ -8,16 +8,33 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
             integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
             crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <!-- <link rel="stylesheet" href="./css/style.css"> -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="./css/style.css">
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+        </body>
         <title>To-Do-List App Homepage</title>
+        <style>
+            body {
+                background-color: #ddd;
+            }
+        </style>
     </head>
 
     <body>
-        <div class="container-fluid">
-            <nav class="navbar navbar-inverse">
+
+
+        <!-- <nav class="navbar navbar-inverse">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="#">To-Do-List App</a>
@@ -28,35 +45,47 @@
                         <li><a href="/">Logout</a></li>
                     </ul>
                 </div>
-            </nav>
-            <!-- <div class="row">
-                <div class="col">
-                    <div class="card card-body text-center">
-                        <h1><i class="fab fa-node-js fa-3x"></i></h1>
-                        <p>Create an account or login</p>
-                        <a href="/auth/login" class="btn btn-primary btn-block mb-2">Register</a>
-                        <a href="/auth/login" class="btn btn-secondary btn-block">Login</a>
-                    </div>
+            </nav> -->
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">To-Do-List</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <span class="navbar-text ml-auto">
+                        Navbar text with an inline element
+                    </span>
                 </div>
-            </div> -->
+            </nav>
 
-            <div class="row align-items-center mh-100">
-                <div class="col-6 mx-auto">
+        </div>
+
+        <div class="container">
+            <div class="row align-items-center mh-100 pt-5">
+                <div class="col-8 mx-auto">
                     <div class="jumbotron text-center">
                         <h1 class="display-4">To-Do-List</h1>
                         <p class="lead">This is a simple to-do-list using the MERN stack.</p>
+                        <hr class="my-4">
                         <p class="lead">
                             <a class="btn btn-primary btn-lg" href="/auth/login" role="button">Sign In</a>
+                            <p>Don't have a free Google Account?
+                                <a href="https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp"
+                                    target="_blank">Create one
+                                </a>
+                            </p>
                         </p>
-                        <p>Don't have a free Google Account?</p>
-                        <a class="d-inline"
-                            href="https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp">Create
-                            one</a>
                     </div>
                 </div>
             </div>
-
         </div>
+
+        <footer>
+
+        </footer>
+
     </body>
 
     </html>

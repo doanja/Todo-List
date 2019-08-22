@@ -1,7 +1,11 @@
-.container {
+/* .container {
     background-color: #f3f3f3;
 }
 
 .container p {
     font-family: 'Calibri';
+} */
+
+body {
+  background-image: url('../images/ep_naturalblack.png');
 }
