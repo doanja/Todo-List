@@ -5,8 +5,18 @@ const Todo = require("../models/todo");
 const User = require("../models/user");
 const router = express.Router();
 
+// middleware to check if user is logged in (ran before user is directed to their profile)
+const isLoggedIn = (req, res, next) => {
+  if(!req.user){ // if user is not logged in
+      res.redirect('/auth/login');
+  } else { // if user is logged in
+      console.log(req.user._id);
+      next();
+  }
+};
+
 // Route: Get All List Items
-router.get("/", (req, res) => {
+router.get("/", isLoggedIn, (req, res) => {
   //finds all todo items from the collection
 
   res.render('todo');
@@ -27,11 +37,9 @@ router.get("/", (req, res) => {
 // Route: get todo items with the ID
 router.get("/:userId", (req, res) => {
   const id = req.params.userId;
-  // req.user._id ?
-  // need to somehow retrieve user ID
   
   // find a todo item given the _id
-  Todo.find({userId: '5d5d8b95134900399cdb01d5'})
+  Todo.find({userId: id})
     .exec()
     .then(data => {
       console.log(data);

@@ -26,8 +26,7 @@ router.get('/google', passport.authenticate('google', {
 
 // callback route for google to redirect after user logs in
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    // res.send(req.user);
-    res.redirect('/profile');
+    res.redirect('/list'); /* !! DYNAMICALLY GO TO USER'S TODO LIST !! */
 });
 
 module.exports = router;
