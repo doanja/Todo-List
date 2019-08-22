@@ -259,6 +259,8 @@ const url = 'http://localhost:5000/list/';
 //     });
 // };
 
+const uid;
+
 // gets all todo items with a specific ID
 const getPostByID = () => {
   clearList();

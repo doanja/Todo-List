@@ -4,13 +4,13 @@ const passport = require('passport');
 
 // auth login
 router.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login', { user: req.user });
 });
 
-// auth logout
+// auth logout handled by passport
 router.get('/logout', (req, res) => {
-  // handle with passport
-  res.send('logging out');
+  req.logOut(); // logs user out
+  res.redirect('/'); // redirects to homepage
 });
 
 /*
@@ -18,7 +18,6 @@ router.get('/logout', (req, res) => {
  *   scope: ['profile'] means you're only requesting their profile
  *   passpport will send you to the consent screen and ask if you
  *   want to allow this app to access your 'profile'
- *
  */
 router.get(
   '/google',
@@ -29,7 +28,7 @@ router.get(
 
 // callback route for google to redirect after user logs in
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  res.redirect('/list'); /* !! DYNAMICALLY GO TO USER'S TODO LIST !! */
+  res.redirect('/list');
 });
 
 module.exports = router;

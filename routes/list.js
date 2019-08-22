@@ -17,23 +17,10 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
-// Route: Get All List Items
+// Route: Renders the to-do-list page
 router.get('/', isLoggedIn, (req, res) => {
-  //finds all todo items from the collection
-
-  res.render('todo');
-
-  // Todo.find()
-  //   .exec()
-  //   .then(data => {
-  //     console.log(data);
-  //     res.status(200).json(data);
-
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     res.status(500).json({ error: err });
-  //   });
+  res.render('list', { user: req.user });
+  console.log(req.user._id);
 });
 
 // Route: get todo items with the ID
@@ -53,7 +40,7 @@ router.get('/:userId', (req, res) => {
     });
 });
 
-// Route: creates a todo item /* need to add code to attach user ID to todo */
+// Route: creates a todo item
 router.post('/', (req, res) => {
   // creates a new Todo object in the database
   const todo = new Todo({
