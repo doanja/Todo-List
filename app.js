@@ -43,8 +43,9 @@ app.use('/profile', require('./routes/profile'));
 
 // // sets public as the static folder
 // app.use('/', express.static(path.join(__dirname, 'public')));
+app.use(express.static('./public'));
 
 // // router to the API
-// app.use("/", require("./routes/list"));
+app.use("/list", require("./routes/list"));
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

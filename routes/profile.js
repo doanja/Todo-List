@@ -6,6 +6,7 @@ const isLoggedIn = (req, res, next) => {
     if(!req.user){ // if user is not logged in
         res.redirect('/auth/login');
     } else { // if user is logged in
+        console.log(req.user._id);
         next();
     }
 };

@@ -19,8 +19,8 @@ const attachClearBtnListener = () => {
 window.onload = () => {
   attachAddBtnListener();
   attachClearBtnListener();
-  getPosts();
-  document.getElementById("getPosts").addEventListener("click", getPosts);
+  // getPosts();
+  // document.getElementById("getPosts").addEventListener("click", getPosts);
   document.getElementById("getPostsID").addEventListener("click", getPostByID);
   document.getElementById("returnMap").addEventListener("click", returnMap);
 
@@ -45,7 +45,7 @@ const addListItem = () => {
     // else add and render the <li> to the <div id="list">
     document.getElementById("list").appendChild(li); // append <li> to <div id="list">
     addTodoItem(inputText); // adds todo item to the database
-    getPosts(); // gets all todo items from the database
+    // getPosts(); // gets all todo items from the database
     clearInputText();
   }
 };
@@ -247,11 +247,31 @@ const returnMap = () => {
 
 const url = 'http://localhost:5000/list/'
 
-// gets all todo items from the database
-const getPosts = () => {
+// // gets all todo items from the database
+// const getPosts = () => {
+//   clearList();
+  
+//   fetch(url, {
+//     method: "GET"
+//   })
+//     .then(checkStatus)
+//     .then(res => {
+//       // renders the list items, and stores the ID in a data attribute
+//       for (let i = 0; i < res.length; i++) {
+//         addListeItemFromDB(res[i].todo, res[i]._id);
+//         // globalList[i] = res[i].todo; // populate client side list of todo items
+//       }
+//     })
+//     .catch(error => {
+//       setErrorMsg(`${error}`);
+//     });
+// };
+
+// gets all todo items with a specific ID
+const getPostByID = () => {
   clearList();
   
-  fetch(url, {
+  fetch("http://localhost:5000/list/5d5d8b95134900399cdb01d5", {
     method: "GET"
   })
     .then(checkStatus)
@@ -259,27 +279,7 @@ const getPosts = () => {
       // renders the list items, and stores the ID in a data attribute
       for (let i = 0; i < res.length; i++) {
         addListeItemFromDB(res[i].todo, res[i]._id);
-        // globalList[i] = res[i].todo; // populate client side list of todo items
       }
-    })
-    .catch(error => {
-      setErrorMsg(`${error}`);
-    });
-};
-
-// gets all todo items with a specific ID
-const getPostByID = () => {
-  clearList();
-  
-  fetch("http://localhost:5000/list/5d42ed9f92379f6324829e4d", {
-    method: "GET"
-  })
-    .then(checkStatus)
-    .then(res => {
-      // renders the list items, and stores the ID in a data attribute
-      // for (let i = 0; i < res.length; i++) {
-        addListeItemFromDB(res.todo, res._id);
-      // }
     })
     .catch(error => {
       setErrorMsg(`${error}`);
