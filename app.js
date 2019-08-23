@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 mongoose
   .connect(key.MongoURI, { useNewUrlParser: true })
   .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // body parser middleware
 app.use(express.json()); // handles json data for post requests
@@ -40,14 +40,10 @@ app.use('/', require('./routes/index'));
 // auth route
 app.use('/auth', require('./routes/auth'));
 
-// profile route (change this to list later)
-app.use('/profile', require('./routes/profile'));
-
-// // sets public as the static folder
-// app.use('/', express.static(path.join(__dirname, 'public')));
-app.use(express.static('./public'));
-
-// // router to the API
+// router to the API
 app.use('/list', require('./routes/list'));
+
+// sets public as the static folder
+app.use(express.static('./public'));
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
