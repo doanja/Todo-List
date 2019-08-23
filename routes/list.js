@@ -30,11 +30,11 @@ router.get('/:userId', (req, res) => {
   // find a todo item given the _id
   Todo.find({ userId: id })
     .exec()
-    .then(data => {
+    .then((data) => {
       console.log(data);
       res.status(200).json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: err });
     });
@@ -52,14 +52,14 @@ router.post('/', (req, res) => {
   // saving the new todo item to the database
   todo
     .save() // stores in db
-    .then(data => {
+    .then((data) => {
       console.log(data);
       res.status(201).json({
         msg: 'POST request SUCCESS creating a todo item',
         createdTodo: data
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: err });
     });
@@ -74,11 +74,11 @@ router.patch('/', (req, res) => {
   // updates the todo item using the _id and todo from the request
   Todo.updateOne({ _id: id }, { todo: todo })
     .exec()
-    .then(data => {
+    .then((data) => {
       console.log(data);
       res.status(200).json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: err });
     });
@@ -92,11 +92,11 @@ router.delete('/', (req, res) => {
   // deletes the todo item using the _id from the request
   Todo.deleteOne({ _id: id })
     .exec()
-    .then(data => {
+    .then((data) => {
       console.log(data);
       res.status(200).json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({ error: err });
     });

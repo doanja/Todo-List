@@ -1,79 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<nav lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
-    <style>
-        body {
-            font-family: arial;
-            margin: 0;
-        }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+            integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+            crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-        nav {
-            background: #ff5353;
-            padding: 20px 10px;
-        }
+        <link rel="stylesheet" href="../css/style.css">
+        
+        <title>To-Do-List App</title>
+    </head>
 
-        nav ul {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0;
-        }
+    <body>
+        <div class="container-fluid px-0">
+            <nav class="navbar navbar-expand-lg op">
+                <a class="navbar-brand" href="/">To-Do-List</a>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <% if (user) { %>
+                    <a class="navbar-brand ml-auto" href="/auth/logout">Log out</a>
+                    <% } else { %>
+                    <a class="navbar-brad ml-auto" href="/auth/login">Login</a>
+                    <% } %>
+                </div>
+            </nav>
+        </div>
 
-        nav li {
-            list-style-type: none;
-            display: inline-block;
-            margin: 0 10px 0 0;
-        }
+        <div class="container">
+            <div class="row align-items-center mh-100 pt-5">
+                <div class="col-8 mx-auto">
+                    <div class="jumbotron text-center op">
+                        <h1 class="display-4">Sign in Using</h1>
+                        <hr class="my-4">
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="/auth/google" role="button">Google+</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    </body>
 
-        nav a {
-            color: #fff;
-            font-size: 18px;
-            background: rgba(255, 255, 255, 0.2);
-            text-decoration: none;
-            padding: 10px;
-            display: block;
-        }
-
-        main,
-        header {
-            max-width: 960px;
-            margin: 30px auto;
-            padding: 0 10px;
-            color: #333;
-        }
-
-        .google-btn {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            padding: 10px;
-            background: #ff5353;
-        }
-    </style>
-</head>
-
-<body>
-    <nav>
-        <ul>
-            <% if (user) { %>
-            <li><a href="/auth/logout">Log out</a></li>
-            <% } else { %>
-            <li><a href="/auth/login">Login</a></li>
-            <% } %>
-            <li><a href="/">Homepage</a></li>
-            <li><a href="/list">List</a></li>
-        </ul>
-    </nav>
-    <header>
-        <h1>Login using...</h1>
-    </header>
-    <main>
-        <a class="google-btn" href="/auth/google">Google+</a>
-    </main>
-</body>
-
-</html>
+    </html>

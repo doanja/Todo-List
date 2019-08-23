@@ -13,61 +13,30 @@
 
         <link rel="stylesheet" href="./css/style.css">
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-        </body>
-        <title>To-Do-List App Homepage</title>
-        <style>
-            body {
-                background-color: #ddd;
-            }
-        </style>
+        
+        <title>To-Do-List App</title>
     </head>
 
     <body>
-
-
-        <!-- <nav class="navbar navbar-inverse">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="#">To-Do-List App</a>
-                    </div>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/list">View List</a></li>
-                        <li><a href="/">Logout</a></li>
-                    </ul>
-                </div>
-            </nav> -->
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">To-Do-List</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
-                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+        <div class="container-fluid px-0">
+            <nav class="navbar navbar-expand-lg op">
+                <a class="navbar-brand" href="/">To-Do-List</a>
                 <div class="collapse navbar-collapse" id="navbarText">
-                    <span class="navbar-text ml-auto">
-                        Navbar text with an inline element
-                    </span>
+                    <% if (user) { %>
+                    <a class="navbar-brand ml-auto" href="/auth/logout">Log out</a>
+                    <% } else { %>
+                    <a class="navbar-brad ml-auto" href="/auth/login">Login</a>
+                    <% } %>
                 </div>
             </nav>
-
         </div>
 
         <div class="container">
             <div class="row align-items-center mh-100 pt-5">
                 <div class="col-8 mx-auto">
-                    <div class="jumbotron text-center">
+                    <div class="jumbotron text-center op">
                         <h1 class="display-4">To-Do-List</h1>
-                        <p class="lead">This is a simple to-do-list using the MERN stack.</p>
+                        <p class="lead">This is a simple to-do-list using the MEJN stack.</p>
                         <hr class="my-4">
                         <p class="lead">
                             <a class="btn btn-primary btn-lg" href="/auth/login" role="button">Sign In</a>
@@ -81,11 +50,15 @@
                 </div>
             </div>
         </div>
-
-        <footer>
-
-        </footer>
-
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
     </body>
 
     </html>

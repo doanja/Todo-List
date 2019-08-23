@@ -1,11 +1,9 @@
-/* .container {
-    background-color: #f3f3f3;
+body,
+hr {
+  background-image: url('../images/ep_naturalblack.png');
+  color: #ffffff;
 }
 
-.container p {
-    font-family: 'Calibri';
-} */
-
-body {
-  background-image: url('../images/ep_naturalblack.png');
+.op {
+  background-color: rgba(255, 255, 255, 0.1);
 }

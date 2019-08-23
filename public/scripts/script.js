@@ -17,9 +17,9 @@ const attachClearBtnListener = () => {
 window.onload = () => {
   attachAddBtnListener();
   attachClearBtnListener();
-  // getPosts();
+  getPostsByID();
   // document.getElementById("getPosts").addEventListener("click", getPosts);
-  document.getElementById('getPostsID').addEventListener('click', getPostByID);
+  document.getElementById('getPostsID').addEventListener('click', getPostsByID);
 };
 
 /*
@@ -41,13 +41,13 @@ const addListItem = () => {
     // else add and render the <li> to the <div id="list">
     document.getElementById('list').appendChild(li); // append <li> to <div id="list">
     addTodoItem(inputText); // adds todo item to the database
-    // getPosts(); // gets all todo items from the database
+    getPostsByID(); // gets all todo items from the database
     clearInputText();
   }
 };
 
 // gets input
-const getInputText = element => {
+const getInputText = (element) => {
   return document.getElementById(element).value.trim();
 };
 
@@ -68,7 +68,7 @@ const createListItem = () => {
  *   renders the <button> element and appends it to <li>.
  *   clicking the <button> will hide <li> from the list
  */
-const createDelBtn = element => {
+const createDelBtn = (element) => {
   const button = document.createElement('button'); // create <button>
   button.textContent = 'delete'; // button's text
   button.className = 'float-right btn btn-danger';
@@ -197,12 +197,12 @@ const truncateText = (text, maxLength) => {
  *   @text, the text to be displayed in html
  *   sets the error text in the html
  */
-const setErrorMsg = text => {
+const setErrorMsg = (text) => {
   alert(text);
 };
 
 // function to handle error handling in HTTP requests
-const checkStatus = res => {
+const checkStatus = (res) => {
   if (res.ok) {
     return res.json();
   } else {
@@ -259,10 +259,8 @@ const url = 'http://localhost:5000/list/';
 //     });
 // };
 
-const uid;
-
 // gets all todo items with a specific ID
-const getPostByID = () => {
+const getPostsByID = () => {
   clearList();
 
   fetch('http://localhost:5000/list/5d5d8b95134900399cdb01d5', {
@@ -270,13 +268,13 @@ const getPostByID = () => {
     method: 'GET'
   })
     .then(checkStatus)
-    .then(res => {
+    .then((res) => {
       // renders the list items, and stores the ID in a data attribute
       for (let i = 0; i < res.length; i++) {
         addListeItemFromDB(res[i].todo, res[i]._id);
       }
     })
-    .catch(error => {
+    .catch((error) => {
       setErrorMsg(`${error}`);
     });
 };
@@ -285,7 +283,7 @@ const getPostByID = () => {
  * @text, the text of the todo item
  * Create a new todo item in the database when 'add' is clicked
  */
-const addTodoItem = text => {
+const addTodoItem = (text) => {
   fetch(url, {
     method: 'POST',
     headers: {
@@ -294,10 +292,10 @@ const addTodoItem = text => {
     body: JSON.stringify({ todo: text })
   })
     .then(checkStatus)
-    .then(res => {
+    .then((res) => {
       console.log('Post request success: ', res);
     })
-    .catch(error => {
+    .catch((error) => {
       setErrorMsg(`${error}`);
     });
 };
@@ -319,10 +317,10 @@ const updateTodoItem = (id, text) => {
     })
   })
     .then(checkStatus)
-    .then(res => {
+    .then((res) => {
       console.log('Update successful: ', res);
     })
-    .catch(error => {
+    .catch((error) => {
       setErrorMsg(`${error}`);
     });
 };
@@ -331,7 +329,7 @@ const updateTodoItem = (id, text) => {
  * @id, the id of the todo item from the database
  * Deletes todo item with matching ID when 'delete' is clicked
  */
-const deleteTodoItem = id => {
+const deleteTodoItem = (id) => {
   fetch(url, {
     method: 'DELETE',
     headers: {
@@ -340,10 +338,10 @@ const deleteTodoItem = id => {
     body: JSON.stringify({ id: id })
   })
     .then(checkStatus)
-    .then(res => {
+    .then((res) => {
       console.log('Delete successful: ', res);
     })
-    .catch(error => {
+    .catch((error) => {
       setErrorMsg(`${error}`);
     });
 };
