@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const Todo = require('../models/todo');
-// const User = require('../models/user');
 const router = express.Router();
 
 // middleware to check if user is logged in (ran before user is directed to their profile)
@@ -12,7 +11,8 @@ const isLoggedIn = (req, res, next) => {
     res.redirect('/auth/login');
   } else {
     // if user is logged in
-    console.log(req.user._id);
+    // console.log(req.user._id);
+    const uid = req.user._id;
     next();
   }
 };

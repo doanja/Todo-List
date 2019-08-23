@@ -9,10 +9,10 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   User.findById(id)
-    .then(data => {
+    .then((data) => {
       done(null, data);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('error deserializing user:', err);
     });
 });
@@ -30,7 +30,7 @@ passport.use(
       // need to check DB before creating a new user
       User.findOne({ googleId: profile.id })
         .exec()
-        .then(data => {
+        .then((data) => {
           if (data) {
             // user exists in DB already
             console.log('user found in DB:', data);
@@ -42,16 +42,16 @@ passport.use(
               googleId: profile._json.sub
             })
               .save()
-              .then(data => {
+              .then((data) => {
                 console.log('user created success:', data);
                 done(null, data); // serializes the user
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log('error creating user:', err);
               });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log('error occured finding user in the DB:', err);
         });
     }

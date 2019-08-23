@@ -39,12 +39,16 @@
                         <p class="lead">This is a simple to-do-list using the MEJN stack.</p>
                         <hr class="my-4">
                         <p class="lead">
+                            <% if (!user) { %>
                             <a class="btn btn-primary btn-lg" href="/auth/login" role="button">Sign In</a>
                             <p>Don't have a free Google Account?
                                 <a href="https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp"
                                     target="_blank">Create one
                                 </a>
                             </p>
+                            <% } else { %>
+                            <a class="btn btn-primary btn-lg" href="/list" role="button">View Your List</a>
+                            <% } %>
                         </p>
                     </div>
                 </div>
