@@ -14,53 +14,53 @@
         <link rel="stylesheet" href="./css/style.css">
         <link rel="stylesheet" href="./css/list.css">
 
-        
+
         <title>To-Do-List App</title>
     </head>
 
     <body>
         <div class="container-fluid px-0">
-            <nav class="navbar navbar-expand-lg op">
-                <a class="navbar-brand" href="/">To-Do-List Home</a>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="/">To-Do-List</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
                     aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
                     <% if (user) { %>
-                    <a class="navbar-brand ml-auto" href="/auth/logout">Log out</a>
+                    <a class="navbar-text ml-auto" href="/auth/logout">Log out</a>
                     <% } else { %>
-                    <a class="navbar-brad ml-auto" href="/auth/login">Login</a>
+                    <a class="navbar-text ml-auto" href="/auth/login">Login</a>
                     <% } %>
                 </div>
             </nav>
         </div>
 
         <div class="container">
-        <h1 class="page-header p-4 text-center"><%=user.username%>'s To-Do-List</h1>
-        <hr>
-        <div class="input-group mb-auto col-xs-10">
-            <input class="form-control" type="text" id="inputTask" placeholder="Enter text here...">
-            <div class="input-group-prepend">
-                <button class="btn btn-secondary btn-sm" id="addButton">Add Item</button>
+            <h1 class="page-header p-4 text-center"><%=user.username%>'s To-Do-List</h1>
+            <hr>
+            <div class="input-group mb-auto col-xs-10">
+                <input class="form-control" type="text" id="inputTask" placeholder="Enter text here...">
+                <div class="input-group-prepend">
+                    <button class="btn btn-secondary btn-sm" id="addButton">Add Item</button>
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="input-group mb-auto">
-            <input class="form-control" type="text" id="inputFilter" onkeyup="filterList()"
-                placeholder="Search to-do list...">
-            <div class="input-group-prepend">
-                <button class="btn btn-secondary btn-sm" id="clearFilters">Clear Filter</button>
+            <br>
+            <div class="input-group mb-auto">
+                <input class="form-control" type="text" id="inputFilter" onkeyup="filterList()"
+                    placeholder="Search to-do list...">
+                <div class="input-group-prepend">
+                    <button class="btn btn-secondary btn-sm" id="clearFilters">Clear Filter</button>
+                </div>
             </div>
+            <hr>
+            <button class="btn btn-danger mr-4" id="getPostsID">Refresh List</button>
+            <hr>
+            <div id="list" class="list-group">
+            </div>
+            <hr>
         </div>
-        <hr>
-        <button class="btn btn-danger mr-4" id="getPostsID">Load List</button>
-        <hr>
-        <div id="list" class="list-group">
-        </div>
-        <hr>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -69,7 +69,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-    <script src="./scripts/script.js"></script>
+        <script src="./scripts/script.js"></script>
     </body>
 
     </html>
