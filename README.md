@@ -14,14 +14,13 @@ passport-google-oauth20
 
 ### Usage
 
-npm install
+1. npm install
 
-# configure your Google API key and MongoDB key in 'config/keys.js'
+2. configure your Google API key and MongoDB key in 'config/keys.js'
 
-# run with nodemon
-npm run dev
+3. run with nodemon: npm run dev
 
-# visit http://localhost:5000/ to view application
+4. visit http://localhost:5000/ to view application
 
 # License
 
