@@ -4,23 +4,23 @@ Simple todo list using the MERN stack with Google OAUT20. Users can login using 
 
 ### Dependencies
 
-cookie-session
-ejs
-exprss
-mongodb
-mongoose
-passport
-passport-google-oauth20
+- cookie-session
+- ejs
+- express
+- mongodb
+- mongoose
+- passport
+- passport-google-oauth20
 
 ### Usage
 
-1. npm install
+1. Run this command on the temrinal: npm install
 
-2. configure your Google API key and MongoDB key in 'config/keys.js'
+2. Configure your Google API key and MongoDB key in 'config/keys.js'.
 
-3. run with nodemon: npm run dev
+3. Run this command on the temrinal: npm run dev
 
-4. visit http://localhost:5000/ to view application
+4. Visit http://localhost:5000/ to view application.
 
 # License
 
