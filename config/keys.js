@@ -1,12 +1,12 @@
 module.exports = {
-  MongoURI: '',
+  MongoURI: "",
 
   google: {
-    clientID: '',
-    clientSecret: ''
+    clientID: "",
+    clientSecret: ""
   },
 
   session: {
-    cookieKey: 'test'
+    cookieKey: "test"
   }
 };
