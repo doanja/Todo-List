@@ -21,9 +21,11 @@ npm run dev
 4. Visit http://localhost:5000/ in your browser to view application.
 
 ## Built With
-- node.js
-- express.js
-- mongoDB
+- Node.js
+- Express.js
+- MongoDB / Mongoose
+- Authentication: Passport.js / Google Oauth2
+- BootStrap / CSS3
 
 # License
 
